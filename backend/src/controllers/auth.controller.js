@@ -21,7 +21,12 @@ const login = async (req, res, next) => {
   }
 };
 
+const getCurrentUser = (req, res) => {
+  res.status(HTTP_STATUS.OK).json({ success: true, data: req.user });
+};
+
 module.exports = {
   register,
   login,
+  getCurrentUser,
 };

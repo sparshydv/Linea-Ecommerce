@@ -13,10 +13,10 @@ const router = express.Router();
 // All cart routes require authentication
 router.use(auth);
 
-router.get('/', getCart);
-router.post('/items', addItem);
-router.put('/items/:productId', updateItem);
+router.get('/', getCart); //show me my cart
+router.post('/items', addItem); //add this product to my cart
+router.put('/items/:productId', updateItem); //update/change quantity of this product in my cart
 router.delete('/items/:productId', removeItem);
-router.delete('/', clearUserCart);
+router.delete('/', clearUserCart); //clear my cart
 
 module.exports = router;

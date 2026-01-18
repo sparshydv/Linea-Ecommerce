@@ -7,6 +7,7 @@ const healthRouter = require('./routes/health');
 const productRouter = require('./routes/product.routes');
 const authRouter = require('./routes/auth.routes');
 const cartRouter = require('./routes/cart.routes');
+const wishlistRouter = require('./routes/wishlist.routes');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -27,6 +28,7 @@ app.use('/health', healthRouter);
 app.use('/api/products', productRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/wishlist', wishlistRouter);
 
 // 404 handler
 app.use(notFound);

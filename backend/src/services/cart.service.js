@@ -2,6 +2,16 @@ const Cart = require('../models/Cart.model');
 const Product = require('../models/Product.model');
 
 /**
+ * Build priceSnapshot for cart item (just the price as number)
+ * Calculates: basePrice - discount (floor at 0)
+ */
+function buildPriceSnapshot(product) {
+  const basePrice = product.basePrice || 0;
+  const discount = product.discount || 0;
+  return Math.max(basePrice - discount, 0);
+}
+
+/**
  * Get or create cart for a user
  */
 async function getUserCart(userId) {
@@ -53,7 +63,7 @@ async function addToCart(userId, productId, quantity = 1) {
       throw error;
     }
     cart.items[existingItemIndex].quantity = newQuantity;
-    cart.items[existingItemIndex].priceSnapshot = product.finalPrice;
+    cart.items[existingItemIndex].priceSnapshot = buildPriceSnapshot(product);
   } else {
     if (quantity > product.stock) {
       const error = new Error('Insufficient stock');
@@ -63,7 +73,7 @@ async function addToCart(userId, productId, quantity = 1) {
     cart.items.push({
       product: productId,
       quantity,
-      priceSnapshot: product.finalPrice,
+      priceSnapshot: buildPriceSnapshot(product),
     });
   }
 
@@ -113,7 +123,7 @@ async function updateCartItem(userId, productId, quantity) {
   }
 
   cart.items[itemIndex].quantity = quantity;
-  cart.items[itemIndex].priceSnapshot = product.finalPrice;
+  cart.items[itemIndex].priceSnapshot = buildPriceSnapshot(product);
 
   await cart.save();
   return await Cart.findOne({ user: userId }).populate('items.product');

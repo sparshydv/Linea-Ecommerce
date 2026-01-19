@@ -102,7 +102,7 @@ const ProductSchema = new mongoose.Schema(
 );
 
 // Maintain pricing and stock flags at the model layer to keep controllers/services clean.
-ProductSchema.pre('save', function productPreSave(next) {
+ProductSchema.pre('save', function (next) {
   this.finalPrice = Math.max(this.basePrice - this.discount, 0);
   this.inStock = (this.stock ?? 0) > 0;
   next();

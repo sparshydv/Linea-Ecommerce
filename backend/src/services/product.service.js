@@ -1,17 +1,43 @@
 const Product = require('../models/Product.model');
 
 /**
- * Fetch paginated products with optional category filter and sorting.
- * Sorting options: price_asc, price_desc, newest (default).
+ * Build common product filter based on query params
+ * Supports: category, price range, new arrivals
  */
-async function getProducts({ page = 1, limit = 10, category, sort = 'newest' }) {
-  const pageNum = Math.max(parseInt(page, 10) || 1, 1);
-  const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
+function buildProductFilter({ category, minPrice, maxPrice, newArrivals }) {
+  const filter = { isActive: true };
 
-  const filter = {};
   if (category) {
     filter.category = category;
   }
+
+  // Price range filtering
+  if (minPrice || maxPrice) {
+    filter.finalPrice = {};
+    if (minPrice) filter.finalPrice.$gte = parseFloat(minPrice);
+    if (maxPrice) filter.finalPrice.$lte = parseFloat(maxPrice);
+  }
+
+  // New arrivals (products created within last X days, default 30)
+  if (newArrivals) {
+    const daysAgo = parseInt(newArrivals, 10) || 30;
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
+    filter.createdAt = { $gte: cutoffDate };
+  }
+
+  return filter;
+}
+
+/**
+ * Fetch paginated products with optional category filter and sorting.
+ * Sorting options: price_asc, price_desc, newest (default).
+ */
+async function getProducts({ page = 1, limit = 10, category, minPrice, maxPrice, newArrivals, sort = 'newest' }) {
+  const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+  const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
+
+  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals });
 
   let sortOption = { createdAt: -1 };
   if (sort === 'price_asc') sortOption = { finalPrice: 1 };
@@ -49,7 +75,57 @@ async function getProductBySlug(slug) {
   return product;
 }
 
+/**
+ * Search products by text query across name and description
+ * Supports optional category filter and pagination
+ * Backend-driven for performance and data security
+ */
+async function searchProducts({ q, category, minPrice, maxPrice, newArrivals, page = 1, limit = 10, sort = 'newest' }) {
+  const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+  const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
+
+  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals });
+
+  // Text search with case-insensitive regex
+  if (q && q.trim()) {
+    const searchRegex = new RegExp(q.trim(), 'i');
+    filter.$or = [
+      { name: searchRegex },
+      { description: searchRegex },
+      { tags: searchRegex },
+    ];
+  }
+
+  let sortOption = { createdAt: -1 };
+  if (sort === 'price_asc') sortOption = { finalPrice: 1 };
+  if (sort === 'price_desc') sortOption = { finalPrice: -1 };
+  if (sort === 'newest') sortOption = { createdAt: -1 };
+
+  const skip = (pageNum - 1) * limitNum;
+
+  const [items, total] = await Promise.all([
+    Product.find(filter)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limitNum)
+      .lean(),
+    Product.countDocuments(filter),
+  ]);
+
+  return {
+    items,
+    pagination: {
+      page: pageNum,
+      limit: limitNum,
+      total,
+      totalPages: Math.ceil(total / limitNum) || 1,
+    },
+    query: q || '',
+  };
+}
+
 module.exports = {
   getProducts,
   getProductBySlug,
+  searchProducts,
 };

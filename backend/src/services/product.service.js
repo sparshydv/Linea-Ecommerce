@@ -11,11 +11,17 @@ function buildProductFilter({ category, minPrice, maxPrice, newArrivals }) {
     filter.category = category;
   }
 
-  // Price range filtering
+  // Price range filtering (validate numbers)
   if (minPrice || maxPrice) {
-    filter.finalPrice = {};
-    if (minPrice) filter.finalPrice.$gte = parseFloat(minPrice);
-    if (maxPrice) filter.finalPrice.$lte = parseFloat(maxPrice);
+    const min = minPrice ? parseFloat(minPrice) : null;
+    const max = maxPrice ? parseFloat(maxPrice) : null;
+    
+    // Only apply filter if values are valid numbers
+    if ((min !== null && !isNaN(min)) || (max !== null && !isNaN(max))) {
+      filter.finalPrice = {};
+      if (min !== null && !isNaN(min)) filter.finalPrice.$gte = min;
+      if (max !== null && !isNaN(max)) filter.finalPrice.$lte = max;
+    }
   }
 
   // New arrivals (products created within last X days, default 30)
@@ -88,7 +94,9 @@ async function searchProducts({ q, category, minPrice, maxPrice, newArrivals, pa
 
   // Text search with case-insensitive regex
   if (q && q.trim()) {
-    const searchRegex = new RegExp(q.trim(), 'i');
+    // Normalize spaces: trim and replace multiple spaces with single space
+    const normalizedQuery = q.trim().replace(/\s+/g, ' ');
+    const searchRegex = new RegExp(normalizedQuery, 'i');
     filter.$or = [
       { name: searchRegex },
       { description: searchRegex },

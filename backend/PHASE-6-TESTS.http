@@ -1,0 +1,495 @@
+/**
+ * PHASE 6 - ORDER SYSTEM TEST CHECKLIST
+ * 
+ * Test all order functionalities:
+ * - Order creation from cart
+ * - Order retrieval and authorization
+ * - Order pricing calculations
+ * - Order status management
+ * - Error handling and edge cases
+ * 
+ * Prerequisites:
+ * - MongoDB running
+ * - Server running (npm run dev)
+ * - 2 test users registered (for auth tests)
+ * - Products seeded
+ * - Each user has items in their cart
+ * 
+ * Base URL: http://localhost:5000/api
+ */
+
+// ============================================================================
+// A. PLACE ORDER - HAPPY PATH
+// ============================================================================
+
+// A1: Place order with valid cart
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA"
+}
+Expected: 201 Created
+Response should contain:
+- success: true
+- order with orderNumber (ORD-YYYYMMDD-XXXXX)
+- items array with snapshots (product, name, price, quantity)
+- pricing: { subtotal, tax, shipping, totalAmount }
+- status: "pending"
+- payment.status: "pending"
+
+// A2: Place order with custom shipping cost
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "456 Oak Ave, Somewhere, USA",
+  "shippingCost": 15.99
+}
+Expected: 201 Created
+- totalAmount should be: subtotal + tax + 15.99
+
+// A3: Place order with custom tax rate
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "789 Pine Rd, Elsewhere, USA",
+  "taxRate": 0.08
+}
+Expected: 201 Created
+- tax calculated at 8% (not default 10%)
+
+// A4: Verify cart cleared after order
+GET http://localhost:5000/api/cart
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- items array should be empty []
+
+// ============================================================================
+// B. PLACE ORDER - ERROR CASES
+// ============================================================================
+
+// B1: Place order with empty cart
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER2_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "999 Test St, Test City, USA"
+}
+Expected: 400 Bad Request
+Message: "Cart is empty. Cannot create order."
+
+// B2: Place order without authentication
+POST http://localhost:5000/api/orders
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA"
+}
+Expected: 401 Unauthorized
+Message: "Token required" or "Unauthorized"
+
+// B3: Place order with expired/invalid token
+POST http://localhost:5000/api/orders
+Authorization: Bearer invalid_token_xyz
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA"
+}
+Expected: 401 Unauthorized
+
+// B4: Place order with negative shipping cost
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA",
+  "shippingCost": -5
+}
+Expected: 400 Bad Request or 201 (service should handle gracefully)
+
+// B5: Place order with invalid taxRate (>1)
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA",
+  "taxRate": 2.5
+}
+Expected: 201 Created (or 400 if validation added)
+- tax should be calculated or capped appropriately
+
+// ============================================================================
+// C. GET USER'S ORDERS - LIST WITH PAGINATION & FILTERING
+// ============================================================================
+
+// C1: Get all orders for logged-in user
+GET http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+Response:
+- items: [order1, order2, ...] (all orders for user)
+- pagination: { page: 1, limit: 10, total: X, totalPages: Y }
+
+// C2: Get orders with pagination (page 2, limit 5)
+GET http://localhost:5000/api/orders?page=2&limit=5
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- pagination.page: 2
+- pagination.limit: 5
+- items.length <= 5
+
+// C3: Get orders with status filter (pending)
+GET http://localhost:5000/api/orders?status=pending
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- All returned orders have status: "pending"
+
+// C4: Get orders with status filter (confirmed)
+GET http://localhost:5000/api/orders?status=confirmed
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- All returned orders have status: "confirmed"
+
+// C5: Get orders with status filter (invalid status)
+GET http://localhost:5000/api/orders?status=invalid_status
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- items: [] (no matching orders)
+
+// C6: Get orders with invalid page number
+GET http://localhost:5000/api/orders?page=abc&limit=10
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- page defaults to 1
+
+// C7: Get orders with invalid limit
+GET http://localhost:5000/api/orders?page=1&limit=xyz
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- limit defaults to 10
+
+// C8: Get orders without authentication
+GET http://localhost:5000/api/orders
+Expected: 401 Unauthorized
+
+// C9: Get orders combined pagination + filter
+GET http://localhost:5000/api/orders?page=1&limit=5&status=pending
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- Returns up to 5 pending orders
+- pagination reflects correct page/limit
+
+// ============================================================================
+// D. GET SINGLE ORDER BY ID - WITH AUTHORIZATION
+// ============================================================================
+
+// D1: Get own order by ID (authorized)
+GET http://localhost:5000/api/orders/<ORDER_ID_FROM_USER1>
+Authorization: Bearer <USER1_TOKEN>
+Expected: 200 OK
+- Returns order with full details
+- items populated with product data
+- pricing breakdown shown
+
+// D2: Get order by ID from different user (unauthorized)
+GET http://localhost:5000/api/orders/<ORDER_ID_FROM_USER1>
+Authorization: Bearer <USER2_TOKEN>
+Expected: 404 Not Found
+Message: "Order not found or unauthorized"
+
+// D3: Get non-existent order ID
+GET http://localhost:5000/api/orders/000000000000000000000000
+Authorization: Bearer <USER1_TOKEN>
+Expected: 404 Not Found
+Message: "Order not found or unauthorized"
+
+// D4: Get order without authentication
+GET http://localhost:5000/api/orders/<ORDER_ID>
+Expected: 401 Unauthorized
+
+// D5: Get order with invalid ID format
+GET http://localhost:5000/api/orders/invalid_id_xyz
+Authorization: Bearer <USER1_TOKEN>
+Expected: 404 Not Found or 400 Bad Request
+
+// ============================================================================
+// E. ORDER DATA INTEGRITY & SNAPSHOTS
+// ============================================================================
+
+// E1: Verify order items are snapshots (not live references)
+Steps:
+1. Create order from cart (note product name, price)
+2. Update product price in database (via MongoDB directly)
+3. Fetch order via GET /api/orders/<ID>
+Expected:
+- Order still shows original price (snapshot preserved)
+- Live product shows new price
+
+// E2: Verify order number uniqueness
+Steps:
+1. Create multiple orders rapidly
+Expected:
+- Each order has unique orderNumber
+- No two orders have same orderNumber
+
+// E3: Verify pricing calculation
+Create order with known cart:
+- Item 1: price $50 x qty 2 = $100
+- Item 2: price $30 x qty 1 = $30
+- Subtotal should be $130
+- Tax at 10% = $13
+- Shipping $5
+- Total = $148
+Expected:
+GET /api/orders/<ID>
+- pricing.subtotal: 130
+- pricing.tax: 13
+- pricing.shipping: 5
+- pricing.totalAmount: 148
+
+// E4: Verify item snapshot fields
+GET /api/orders/<ID>
+Expected:
+- Each item has: product (ObjectId), name (string), price (number), quantity (number)
+- product field is populated with product data (name, slug, etc.)
+
+// ============================================================================
+// F. ORDER STATUS LIFECYCLE
+// ============================================================================
+
+// F1: New order status is "pending"
+Steps:
+1. Create order
+2. Fetch order
+Expected:
+- status: "pending"
+- payment.status: "pending"
+
+// F2: Get orders filtered by status (verify enum values work)
+Steps:
+1. Create multiple orders
+2. Test each status: pending, confirmed, shipped, delivered, cancelled
+Expected:
+- Filter returns correct orders for each status
+
+// ============================================================================
+// G. PAYMENT INFORMATION
+// ============================================================================
+
+// G1: New order payment defaults to COD (Cash on Delivery)
+GET http://localhost:5000/api/orders/<ORDER_ID>
+Authorization: Bearer <USER1_TOKEN>
+Expected:
+- payment.method: "cod"
+- payment.status: "pending"
+
+// G2: Verify payment enum values
+Expected payment methods to be one of:
+- credit_card
+- debit_card
+- paypal
+- bank_transfer
+- cod
+
+// ============================================================================
+// H. EDGE CASES & BOUNDARY CONDITIONS
+// ============================================================================
+
+// H1: Order with single item
+Steps:
+1. Add 1 item to cart
+2. Place order
+Expected: 201 Created (order should accept single item)
+
+// H2: Order with many items (10+)
+Steps:
+1. Add 10 different products to cart
+2. Place order
+Expected: 201 Created (no limit enforced)
+
+// H3: Order with large quantity (qty: 999)
+Steps:
+1. Add item with qty: 999 to cart
+2. Place order
+Expected: 201 Created (quantity stored correctly)
+
+// H4: Order with zero tax (taxRate: 0)
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA",
+  "taxRate": 0
+}
+Expected: 201 Created
+- tax: 0
+
+// H5: Order with very high price items
+Steps:
+1. Seed product with price $999,999.99
+2. Add to cart, place order
+Expected: 201 Created (pricing calculated correctly)
+
+// H6: Empty shipping address (default behavior)
+POST http://localhost:5000/api/orders
+Authorization: Bearer <USER1_TOKEN>
+Content-Type: application/json
+
+{}
+Expected: 201 Created
+- shippingAddress: "TBD" (default value)
+
+// ============================================================================
+// I. RESPONSE FORMAT & STRUCTURE
+// ============================================================================
+
+// I1: Verify response structure for placeOrder
+Expected response format:
+{
+  "success": true,
+  "message": "Order placed successfully",
+  "data": {
+    "_id": ObjectId,
+    "user": ObjectId,
+    "orderNumber": "ORD-20260121-00001",
+    "items": [...],
+    "pricing": {...},
+    "status": "pending",
+    "payment": {...},
+    "shippingAddress": "...",
+    "createdAt": ISO timestamp,
+    "updatedAt": ISO timestamp
+  }
+}
+
+// I2: Verify response structure for listUserOrders
+Expected response format:
+{
+  "success": true,
+  "data": {
+    "items": [order1, order2, ...],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 25,
+      "totalPages": 3
+    }
+  }
+}
+
+// I3: Verify response structure for getOrder
+Expected response format:
+{
+  "success": true,
+  "data": { order details }
+}
+
+// ============================================================================
+// J. CONCURRENCY & RACE CONDITIONS
+// ============================================================================
+
+// J1: Rapid order creation (same user, same session)
+Steps:
+1. Create 3 orders in quick succession (same user)
+Expected:
+- All 3 orders succeed
+- Each has unique orderNumber
+- No data corruption
+
+// J2: Simultaneous order creation (different users)
+Steps:
+1. User1 creates order
+2. User2 creates order (at same time, if possible)
+Expected:
+- Both orders succeed
+- Both have unique orderNumbers
+- No cross-user data contamination
+
+// ============================================================================
+// K. AUTHORIZATION & SECURITY
+// ============================================================================
+
+// K1: User cannot see another user's orders
+Steps:
+1. User1 creates order
+2. Try to fetch with User2 token
+Expected: 404 Not Found (order hidden from unauthorized user)
+
+// K2: User cannot modify another user's order
+(Future test when update/cancel endpoints added)
+Expected: 403 Forbidden or 404 Not Found
+
+// K3: Invalid token doesn't grant access
+POST http://localhost:5000/api/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.invalid.signature
+Content-Type: application/json
+
+{
+  "shippingAddress": "123 Main St, Anytown, USA"
+}
+Expected: 401 Unauthorized
+
+// K4: Expired token doesn't grant access
+(Create a JWT that's expired)
+Expected: 401 Unauthorized
+
+// ============================================================================
+// SUMMARY CHECKLIST
+// ============================================================================
+/*
+□ A1: Place order with valid cart (201)
+□ A2: Place order with custom shipping
+□ A3: Place order with custom tax rate
+□ A4: Cart cleared after order
+□ B1: Empty cart error (400)
+□ B2: No auth error (401)
+□ B3: Invalid token error (401)
+□ B4: Negative shipping cost handling
+□ B5: Invalid tax rate handling
+□ C1: Get all orders (200)
+□ C2: Get orders with pagination
+□ C3: Get orders filtered by status (pending)
+□ C4: Get orders filtered by status (confirmed)
+□ C5: Get orders with invalid status
+□ C6: Pagination with invalid page
+□ C7: Pagination with invalid limit
+□ C8: Get orders without auth (401)
+□ C9: Combined pagination + filter
+□ D1: Get own order (200)
+□ D2: Get other user's order (404)
+□ D3: Get non-existent order (404)
+□ D4: Get order without auth (401)
+□ D5: Get order with invalid ID
+□ E1: Order snapshots preserved
+□ E2: Order number uniqueness
+□ E3: Pricing calculation accuracy
+□ E4: Item snapshot fields correct
+□ F1: New order status is pending
+□ F2: Filter by all status values
+□ G1: Payment defaults to COD
+□ G2: Payment methods enum correct
+□ H1: Order with single item
+□ H2: Order with 10+ items
+□ H3: Order with high quantity
+□ H4: Order with zero tax
+□ H5: Order with very high prices
+□ H6: Empty shipping address defaults
+□ I1: placeOrder response format
+□ I2: listUserOrders response format
+□ I3: getOrder response format
+□ J1: Rapid order creation
+□ J2: Concurrent order creation
+□ K1: Authorization check (different user)
+□ K2: Invalid token rejected
+□ K3: Expired token rejected
+*/

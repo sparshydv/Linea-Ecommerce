@@ -9,7 +9,7 @@ const { HTTP_STATUS } = require('../constants/httpStatus');
 
 const getCart = async (req, res, next) => {
   try {
-    const cart = await getUserCart(req.user.id);
+    const cart = await getUserCart(req.user._id);
     res.status(HTTP_STATUS.OK).json({ success: true, data: cart });
   } catch (err) {
     next(err);
@@ -19,7 +19,7 @@ const getCart = async (req, res, next) => {
 const addItem = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
-    const cart = await addToCart(req.user.id, productId, quantity);
+    const cart = await addToCart(req.user._id, productId, quantity);
     res.status(HTTP_STATUS.OK).json({ success: true, data: cart });
   } catch (err) {
     next(err);
@@ -30,7 +30,7 @@ const updateItem = async (req, res, next) => {
   try {
     const { productId } = req.params;
     const { quantity } = req.body;
-    const cart = await updateCartItem(req.user.id, productId, quantity);
+    const cart = await updateCartItem(req.user._id, productId, quantity);
     res.status(HTTP_STATUS.OK).json({ success: true, data: cart });
   } catch (err) {
     next(err);
@@ -40,7 +40,7 @@ const updateItem = async (req, res, next) => {
 const removeItem = async (req, res, next) => {
   try {
     const { productId } = req.params;
-    const cart = await removeFromCart(req.user.id, productId);
+    const cart = await removeFromCart(req.user._id, productId);
     res.status(HTTP_STATUS.OK).json({ success: true, data: cart });
   } catch (err) {
     next(err);
@@ -49,7 +49,7 @@ const removeItem = async (req, res, next) => {
 
 const clearUserCart = async (req, res, next) => {
   try {
-    const cart = await clearCart(req.user.id);
+    const cart = await clearCart(req.user._id);
     res.status(HTTP_STATUS.OK).json({ success: true, data: cart });
   } catch (err) {
     next(err);

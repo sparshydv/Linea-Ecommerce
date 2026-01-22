@@ -1,6 +1,7 @@
 const Order = require('../models/Order.model');
 const Cart = require('../models/Cart.model');
 const Product = require('../models/Product.model');
+const mongoose = require('mongoose');
 
 /**
  * Generate unique, human-readable order number
@@ -42,6 +43,20 @@ async function createOrderFromCart(userId, orderOptions = {}) {
     throw error;
   }
 
+  // Validate shipping cost
+  if (shippingCost < 0) {
+    const error = new Error('Shipping cost cannot be negative');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Validate tax rate
+  if (taxRate < 0) {
+    const error = new Error('Tax rate cannot be negative');
+    error.statusCode = 400;
+    throw error;
+  }
+
   // Fetch user's cart with populated product details
   const cart = await Cart.findOne({ user: userId }).populate('items.product');
   if (!cart || !cart.items || cart.items.length === 0) {
@@ -54,7 +69,9 @@ async function createOrderFromCart(userId, orderOptions = {}) {
   const orderItems = cart.items.map((cartItem) => {
     const product = cartItem.product;
     if (!product) {
-      throw new Error('Product not found in cart');
+      const error = new Error('One or more products in your cart are no longer available. Please remove unavailable items and try again.');
+      error.statusCode = 400;
+      throw error;
     }
     return {
       product: product._id,
@@ -160,6 +177,13 @@ async function getUserOrders(userId, options = {}) {
 async function getOrderById(orderId, userId) {
   if (!orderId || !userId) {
     const error = new Error('Order ID and User ID required');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    const error = new Error('Invalid order ID format');
     error.statusCode = 400;
     throw error;
   }

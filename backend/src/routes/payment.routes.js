@@ -1,25 +1,16 @@
 const express = require('express');
-const { createRazorpayOrderHandler, razorpayWebhookHandler } = require('../controllers/payment.controller');
-const auth = require('../middleware/auth');
-
 const router = express.Router();
+const paymentController = require('../controllers/payment.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
 
-// Protected routes (require authentication)
-router.post('/razorpay/order', auth, createRazorpayOrderHandler);
-
-// Public webhook route (NO auth middleware - signature verification instead)
-router.post('/razorpay/webhook', razorpayWebhookHandler);
-
-module.exports = router;
-
-/*
- * MOUNTING IN app.js:
- *
- * const paymentRoutes = require('./routes/payment.routes');
- * app.use('/api/payments', paymentRoutes);
- *
- * This makes routes available at:
- * - POST /api/payments/razorpay/order (protected)
- * - POST /api/payments/razorpay/webhook (public, signature-verified)
+/**
+ * Payment Routes - Mock Payment Gateway
  */
 
+// POST /api/payments/mock/intent - Create mock payment intent (requires auth)
+router.post('/mock/intent', authMiddleware, paymentController.createMockPaymentIntent);
+
+// POST /api/payments/mock/webhook - Handle payment webhooks (NO auth - simulates gateway callbacks)
+router.post('/mock/webhook', paymentController.handleMockPaymentWebhook);
+
+module.exports = router;

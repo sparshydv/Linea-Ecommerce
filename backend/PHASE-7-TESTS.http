@@ -1,0 +1,568 @@
+###############################################################################
+# PHASE 7 - MOCK PAYMENT GATEWAY - COMPREHENSIVE TEST SUITE
+# Test coverage: Payment intent creation, webhooks, edge cases, state transitions
+###############################################################################
+
+# SETUP INSTRUCTIONS:
+# 1. Ensure server is running (npm run dev)
+# 2. Register/login to get JWT token
+# 3. Create at least one product in DB
+# 4. Replace {{token}} with your actual JWT
+# 5. Replace {{orderId}} with actual order IDs as you create them
+# 6. Run tests in sequence to observe state transitions
+
+@baseUrl = http://localhost:5000/api
+@token = YOUR_JWT_TOKEN_HERE
+@orderId = YOUR_ORDER_ID_HERE
+
+
+###############################################################################
+# PRE-REQUISITES: Create Test Order
+###############################################################################
+
+### 1. Login to get JWT token
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### 2. Add product to cart (replace productId with actual)
+POST {{baseUrl}}/cart
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "productId": "ACTUAL_PRODUCT_ID",
+  "quantity": 2
+}
+
+### 3. Create order from cart (save orderId from response)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "shippingAddress": {
+    "street": "123 Test Street",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "postalCode": "400001",
+    "country": "India"
+  },
+  "paymentMethod": "mock"
+}
+
+
+###############################################################################
+# SECTION 1: PHASE 7.1 - PAYMENT INTENT CREATION (HAPPY PATH)
+###############################################################################
+
+### TEST 1.1: Create payment intent for valid order
+# Expected: 200 OK with mockPaymentId, mockClientSecret, amount, currency
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "{{orderId}}"
+}
+
+### TEST 1.2: Verify payment intent structure
+# Expected response structure:
+# {
+#   "success": true,
+#   "data": {
+#     "mockPaymentId": "mock_pay_...",
+#     "mockClientSecret": "mock_secret_...",
+#     "amount": 45000,
+#     "currency": "INR",
+#     "orderId": "...",
+#     "orderNumber": "ORD-..."
+#   }
+# }
+
+
+###############################################################################
+# SECTION 2: PHASE 7.1 - PAYMENT INTENT ERRORS
+###############################################################################
+
+### TEST 2.1: Create payment without orderId
+# Expected: 400 Bad Request - "orderId is required"
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+}
+
+### TEST 2.2: Create payment without authentication
+# Expected: 401 Unauthorized
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}"
+}
+
+### TEST 2.3: Create payment for non-existent order
+# Expected: 404 Not Found - "Order not found"
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "507f1f77bcf86cd799439011"
+}
+
+### TEST 2.4: Create payment for someone else's order
+# Expected: 403 Forbidden - "Not authorized to access this order"
+# (Login as different user and try to pay for another user's order)
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer DIFFERENT_USER_TOKEN
+
+{
+  "orderId": "{{orderId}}"
+}
+
+
+###############################################################################
+# SECTION 3: PHASE 7.2 - WEBHOOK SUCCESS (HAPPY PATH)
+###############################################################################
+
+### TEST 3.1: Send success webhook for pending payment
+# Expected: 200 OK, order.paymentStatus = "success", order.status = "confirmed"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_test123",
+  "orderId": "{{orderId}}"
+}
+
+### TEST 3.2: Verify order status after success webhook
+# Expected: paymentStatus = "success", status = "confirmed", payment.paidAt exists
+GET {{baseUrl}}/orders/{{orderId}}
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 4: PHASE 7.2 - WEBHOOK FAILURE (HAPPY PATH)
+###############################################################################
+
+### TEST 4.1: Create new order for failure test
+# (Use steps from PRE-REQUISITES section to create fresh order)
+
+### TEST 4.2: Send failure webhook for pending payment
+# Expected: 200 OK, order.paymentStatus = "failed", order.status = "cancelled"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.failed",
+  "mockPaymentId": "mock_pay_failed123",
+  "orderId": "NEW_ORDER_ID_HERE"
+}
+
+### TEST 4.3: Verify order status after failure webhook
+# Expected: paymentStatus = "failed", status = "cancelled"
+GET {{baseUrl}}/orders/NEW_ORDER_ID_HERE
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 5: EDGE CASE - DUPLICATE SUCCESS WEBHOOK (Scenario 1)
+###############################################################################
+
+### TEST 5.1: Send success webhook first time
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_duplicate_test",
+  "orderId": "{{orderId}}"
+}
+
+### TEST 5.2: Send same success webhook again (duplicate)
+# Expected: 200 OK but processed=false, reason="duplicate_event"
+# Should NOT create duplicate order confirmation
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_duplicate_test",
+  "orderId": "{{orderId}}"
+}
+
+### TEST 5.3: Send success webhook third time
+# Expected: Still processed=false, idempotency maintained
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_duplicate_test",
+  "orderId": "{{orderId}}"
+}
+
+
+###############################################################################
+# SECTION 6: EDGE CASE - SUCCESS AFTER FAILURE (Scenario 2)
+###############################################################################
+
+### TEST 6.1: Create new order and mark as failed
+# Step 1: Create order (use PRE-REQUISITES steps)
+# Step 2: Send failure webhook
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.failed",
+  "mockPaymentId": "mock_pay_scenario2_fail",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_2"
+}
+
+### TEST 6.2: Try to send success webhook after failure
+# Expected: 200 OK but processed=false, reason="invalid_state_transition"
+# Response should include requiresAdminReview=true, severity="CRITICAL"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_scenario2_success",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_2"
+}
+
+### TEST 6.3: Verify order remains failed (consistency preserved)
+# Expected: paymentStatus still "failed", status still "cancelled"
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_2
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 7: EDGE CASE - FAILURE AFTER SUCCESS (Reverse Scenario 2)
+###############################################################################
+
+### TEST 7.1: Create order and mark as success
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_scenario7_success",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_7"
+}
+
+### TEST 7.2: Try to send failure webhook after success
+# Expected: 200 OK but processed=false, reason="invalid_state_transition"
+# Should include requiresAdminReview=true, severity="CRITICAL"
+# Order should remain successful (no downgrade)
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.failed",
+  "mockPaymentId": "mock_pay_scenario7_fail",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_7"
+}
+
+### TEST 7.3: Verify order remains successful
+# Expected: paymentStatus still "success", status still "confirmed"
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_7
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 8: EDGE CASE - ORPHANED PAYMENT (Scenario 3)
+###############################################################################
+
+### TEST 8.1: Create payment intent but never send webhook
+# Simulates: payment created but webhook never arrives
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+}
+
+### TEST 8.2: Create another payment intent for same order
+# Expected: 200 OK, logs "Previous payment may be orphaned"
+# Old payment becomes stale, new payment intent created
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+}
+
+### TEST 8.3: Verify order still pending (waiting for webhook)
+# Expected: paymentStatus = "pending"
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_8
+Authorization: Bearer {{token}}
+
+### TEST 8.4: Send success webhook for latest payment
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_scenario8_final",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+}
+
+
+###############################################################################
+# SECTION 9: EDGE CASE - PAYMENT RETRY AFTER FAILURE (Scenario 4)
+###############################################################################
+
+### TEST 9.1: Create order and mark as failed
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.failed",
+  "mockPaymentId": "mock_pay_scenario9_first_fail",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_9"
+}
+
+### TEST 9.2: Verify order is failed
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_9
+Authorization: Bearer {{token}}
+
+### TEST 9.3: User retries payment (create new payment intent)
+# Expected: 200 OK, order.paymentStatus reset to "pending"
+# Logs: "Retrying payment for failed order"
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "NEW_ORDER_FOR_SCENARIO_9"
+}
+
+### TEST 9.4: Verify order reset to pending
+# Expected: paymentStatus = "pending", status = "pending"
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_9
+Authorization: Bearer {{token}}
+
+### TEST 9.5: Send success webhook for retry
+# Expected: 200 OK, payment successful
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_scenario9_retry_success",
+  "orderId": "NEW_ORDER_FOR_SCENARIO_9"
+}
+
+### TEST 9.6: Verify order now successful
+# Expected: paymentStatus = "success", status = "confirmed"
+GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_9
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 10: EDGE CASE - PAYMENT ALREADY SUCCESS
+###############################################################################
+
+### TEST 10.1: Try to create payment intent for successful order
+# Expected: 400 Bad Request - "Payment already successful"
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "SUCCESSFUL_ORDER_ID"
+}
+
+
+###############################################################################
+# SECTION 11: WEBHOOK VALIDATION ERRORS
+###############################################################################
+
+### TEST 11.1: Send webhook without event field
+# Expected: 400 Bad Request - "event and orderId are required"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "mockPaymentId": "mock_pay_test",
+  "orderId": "{{orderId}}"
+}
+
+### TEST 11.2: Send webhook without orderId
+# Expected: 400 Bad Request - "event and orderId are required"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_test"
+}
+
+### TEST 11.3: Send webhook for non-existent order
+# Expected: 404 Not Found - "Order not found"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_test",
+  "orderId": "507f1f77bcf86cd799439011"
+}
+
+### TEST 11.4: Send webhook with unknown event type
+# Expected: 200 OK but processed=false, reason="unknown_event"
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.pending",
+  "mockPaymentId": "mock_pay_test",
+  "orderId": "{{orderId}}"
+}
+
+
+###############################################################################
+# SECTION 12: COMPLETE PAYMENT FLOW (END-TO-END)
+###############################################################################
+
+### TEST 12.1: Create fresh order
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "shippingAddress": {
+    "street": "456 E2E Test Road",
+    "city": "Delhi",
+    "state": "Delhi",
+    "postalCode": "110001",
+    "country": "India"
+  },
+  "paymentMethod": "mock"
+}
+
+### TEST 12.2: Create payment intent
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "orderId": "E2E_ORDER_ID"
+}
+
+### TEST 12.3: Simulate user completing payment (send success webhook)
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_e2e_success",
+  "orderId": "E2E_ORDER_ID"
+}
+
+### TEST 12.4: Verify final order state
+# Expected: paymentStatus = "success", status = "confirmed", payment.paidAt exists
+GET {{baseUrl}}/orders/E2E_ORDER_ID
+Authorization: Bearer {{token}}
+
+
+###############################################################################
+# SECTION 13: STRESS TESTING - RAPID WEBHOOKS
+###############################################################################
+
+### TEST 13.1: Send 5 duplicate success webhooks rapidly
+# Expected: Only first processes, rest are idempotent rejections
+# (Execute this request 5 times in quick succession)
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_stress_test",
+  "orderId": "STRESS_TEST_ORDER_ID"
+}
+
+
+###############################################################################
+# SECTION 14: SECURITY TESTING
+###############################################################################
+
+### TEST 14.1: Webhook requires NO authentication (by design)
+# Expected: 200 OK (webhooks come from gateway, not user)
+POST {{baseUrl}}/payments/mock/webhook
+Content-Type: application/json
+
+{
+  "event": "payment.success",
+  "mockPaymentId": "mock_pay_security",
+  "orderId": "{{orderId}}"
+}
+
+### TEST 14.2: Payment intent requires authentication
+# Expected: 401 Unauthorized
+POST {{baseUrl}}/payments/mock/intent
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}"
+}
+
+### TEST 14.3: Amount tampering prevention
+# Note: Amount comes from order.totalAmount, not from request
+# Frontend cannot manipulate payment amount
+# Verify by checking response amount matches order total
+
+
+###############################################################################
+# TEST SUMMARY CHECKLIST
+###############################################################################
+
+# ✅ PHASE 7.1 - Payment Intent Creation
+# [ ] TEST 1.1 - Create valid payment intent
+# [ ] TEST 2.1 - Missing orderId validation
+# [ ] TEST 2.2 - Authentication required
+# [ ] TEST 2.3 - Non-existent order
+# [ ] TEST 2.4 - Unauthorized access
+# [ ] TEST 10.1 - Already successful payment
+
+# ✅ PHASE 7.2 - Webhook Processing
+# [ ] TEST 3.1 - Success webhook (happy path)
+# [ ] TEST 4.2 - Failure webhook (happy path)
+# [ ] TEST 11.1 - Missing event field
+# [ ] TEST 11.2 - Missing orderId field
+# [ ] TEST 11.3 - Non-existent order
+# [ ] TEST 11.4 - Unknown event type
+
+# ✅ EDGE CASE HANDLING
+# [ ] TEST 5.1-5.3 - Duplicate success webhooks (idempotency)
+# [ ] TEST 6.1-6.3 - Success after failure (invalid transition)
+# [ ] TEST 7.1-7.3 - Failure after success (no downgrade)
+# [ ] TEST 8.1-8.4 - Orphaned payments
+# [ ] TEST 9.1-9.6 - Payment retry after failure
+
+# ✅ INTEGRATION & SECURITY
+# [ ] TEST 12.1-12.4 - Complete E2E flow
+# [ ] TEST 13.1 - Rapid duplicate webhooks
+# [ ] TEST 14.1-14.3 - Security validations
+
+# ✅ STATE CONSISTENCY
+# [ ] Verify no state corruption after invalid transitions
+# [ ] Verify idempotency maintains data integrity
+# [ ] Verify successful retries after failures
+# [ ] Verify logging for critical scenarios
+
+###############################################################################
+# END OF TEST SUITE
+###############################################################################

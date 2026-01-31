@@ -12,8 +12,8 @@
 # 6. Run tests in sequence to observe state transitions
 
 @baseUrl = http://localhost:5000/api
-@token = YOUR_JWT_TOKEN_HERE
-@orderId = YOUR_ORDER_ID_HERE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYxZjIzMzZkMTc1ODRlYzc0YzgxZmEiLCJpYXQiOjE3Njk4NzIyNzMsImV4cCI6MTc3MDQ3NzA3M30.k7VNYLHNvHP-KkSXnBH9NsLDcJtTS2EtRim7DNU4zME
+@orderId = 6971caebaf364035d66cd799
 
 
 ###############################################################################

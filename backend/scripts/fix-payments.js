@@ -1,4 +1,16 @@
-const Order = require('../models/Order.model');
+const fs = require("fs");
+const path = require("path");
+
+function write(file, content) {
+  fs.writeFileSync(path.resolve(file), content, { encoding: "utf8" });
+  console.log("✔ written:", file);
+}
+
+/* ================= payment.service.js ================= */
+
+write(
+  "src/services/payment.service.js",
+`const Order = require('../models/Order.model');
 const crypto = require('crypto');
 
 async function createMockPayment(orderId, userId) {
@@ -93,3 +105,61 @@ async function handleMockWebhook(payload) {
 }
 
 module.exports = { createMockPayment, handleMockWebhook };
+`
+);
+
+/* ================= payment.controller.js ================= */
+
+write(
+  "src/controllers/payment.controller.js",
+`const paymentService = require('../services/payment.service');
+
+async function createMockPaymentIntent(req, res, next) {
+  try {
+    const { orderId } = req.body;
+    const userId = req.user._id;
+
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: 'orderId required' });
+    }
+
+    const data = await paymentService.createMockPayment(orderId, userId);
+    res.status(200).json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function handleMockPaymentWebhook(req, res, next) {
+  try {
+    const result = await paymentService.handleMockWebhook(req.body);
+    res.status(200).json({ success: true, data: result });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = {
+  createMockPaymentIntent,
+  handleMockPaymentWebhook
+};
+`
+);
+
+/* ================= payment.routes.js ================= */
+
+write(
+  "src/routes/payment.routes.js",
+`const express = require('express');
+const router = express.Router();
+const paymentController = require('../controllers/payment.controller');
+const authMiddleware = require('../middleware/auth');
+
+router.post('/mock/intent', authMiddleware, paymentController.createMockPaymentIntent);
+router.post('/mock/webhook', paymentController.handleMockPaymentWebhook);
+
+module.exports = router;
+`
+);
+
+console.log("✅ Payment system recreated cleanly");

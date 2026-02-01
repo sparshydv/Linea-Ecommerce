@@ -1,1 +1,31 @@
-潣獮⁴慰浹湥却牥楶散㴠爠煥極敲✨⸮猯牥楶散⽳慰浹湥⹴敳癲捩❥㬩ਊ獡湹⁣畦据楴湯挠敲瑡䵥捯偫祡敭瑮湉整瑮爨煥‬敲ⱳ渠硥⥴笠 琠祲笠 †挠湯瑳笠漠摲牥摉素㴠爠煥戮摯㭹 †挠湯瑳甠敳䥲⁤‽敲⹱獵牥弮摩਻ †椠⁦ℨ牯敤䥲⥤笠 ††爠瑥牵⁮敲⹳瑳瑡獵㐨〰⸩獪湯笨猠捵散獳›慦獬ⱥ洠獥慳敧›漧摲牥摉爠煥極敲❤素㬩 †素ਊ††潣獮⁴慤慴㴠愠慷瑩瀠祡敭瑮敓癲捩⹥牣慥整潍正慐浹湥⡴牯敤䥲Ɽ甠敳䥲⥤਻††敲⹳瑳瑡獵㈨〰⸩獪湯笨猠捵散獳›牴敵‬慤慴素㬩 素挠瑡档⠠牥⥲笠 †渠硥⡴牥⥲਻†੽੽愊祳据映湵瑣潩⁮慨摮敬潍正慐浹湥坴扥潨歯爨煥‬敲ⱳ渠硥⥴笠 琠祲笠 †挠湯瑳爠獥汵⁴‽睡楡⁴慰浹湥却牥楶散栮湡汤䵥捯坫扥潨歯爨煥戮摯⥹਻††敲⹳瑳瑡獵㈨〰⸩獪湯笨猠捵散獳›牴敵‬慤慴›敲畳瑬素㬩 素挠瑡档⠠牥⥲笠 †渠硥⡴牥⥲਻†੽੽洊摯汵⹥硥潰瑲⁳‽੻†牣慥整潍正慐浹湥䥴瑮湥ⱴ 栠湡汤䵥捯偫祡敭瑮敗桢潯੫㭽
+const paymentService = require('../services/payment.service');
+
+async function createMockPaymentIntent(req, res, next) {
+  try {
+    const { orderId } = req.body;
+    const userId = req.user._id;
+
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: 'orderId required' });
+    }
+
+    const data = await paymentService.createMockPayment(orderId, userId);
+    res.status(200).json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function handleMockPaymentWebhook(req, res, next) {
+  try {
+    const result = await paymentService.handleMockWebhook(req.body);
+    res.status(200).json({ success: true, data: result });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = {
+  createMockPaymentIntent,
+  handleMockPaymentWebhook
+};

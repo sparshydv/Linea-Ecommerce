@@ -12,8 +12,8 @@
 # 6. Run tests in sequence to observe state transitions
 
 @baseUrl = http://localhost:5000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYxZjIzMzZkMTc1ODRlYzc0YzgxZmEiLCJpYXQiOjE3Njk4NzIyNzMsImV4cCI6MTc3MDQ3NzA3M30.k7VNYLHNvHP-KkSXnBH9NsLDcJtTS2EtRim7DNU4zME
-@orderId = 6971caebaf364035d66cd799
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYxZjIzMzZkMTc1ODRlYzc0YzgxZmEiLCJpYXQiOjE3Njk5MjIxNTUsImV4cCI6MTc3MDUyNjk1NX0.Jg4cRD3zyb-6Tr9P2vNOV2SQORIkwTkbU6S2cCt4kdQ
+@orderId = 697e250b03f3cf823f22c394
 
 
 ###############################################################################
@@ -122,7 +122,7 @@ Authorization: Bearer {{token}}
 # (Login as different user and try to pay for another user's order)
 POST {{baseUrl}}/payments/mock/intent
 Content-Type: application/json
-Authorization: Bearer DIFFERENT_USER_TOKEN
+Authorization: Bearer {{token of diff user}}
 
 {
   "orderId": "{{orderId}}"
@@ -165,12 +165,12 @@ Content-Type: application/json
 {
   "event": "payment.failed",
   "mockPaymentId": "mock_pay_failed123",
-  "orderId": "NEW_ORDER_ID_HERE"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 4.3: Verify order status after failure webhook
 # Expected: paymentStatus = "failed", status = "cancelled"
-GET {{baseUrl}}/orders/NEW_ORDER_ID_HERE
+GET {{baseUrl}}/orders/69706546c184299ecbfdf42d
 Authorization: Bearer {{token}}
 
 
@@ -185,7 +185,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_duplicate_test",
-  "orderId": "{{orderId}}"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 5.2: Send same success webhook again (duplicate)
@@ -197,7 +197,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_duplicate_test",
-  "orderId": "{{orderId}}"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 5.3: Send success webhook third time
@@ -208,7 +208,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_duplicate_test",
-  "orderId": "{{orderId}}"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 

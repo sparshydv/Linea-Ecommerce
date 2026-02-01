@@ -22,15 +22,21 @@ async function createMockPayment(orderId, userId) {
     throw err;
   }
 
-  if (order.paymentStatus === 'success') {
+  if (order.payment.status === 'success') {
     const err = new Error('Payment already completed');
     err.statusCode = 400;
     throw err;
   }
 
-  if (order.paymentStatus === 'failed') {
-    order.paymentStatus = 'pending';
+  if (order.payment.status === 'failed') {
+    order.payment.status = 'pending';
     order.status = 'pending';
+    await order.save();
+  }
+
+  // Set payment method if not already set
+  if (!order.payment.method) {
+    order.payment.method = 'credit_card'; // Default for mock payments
     await order.save();
   }
 
@@ -63,27 +69,25 @@ async function handleMockWebhook(payload) {
     throw err;
   }
 
-  if (event === 'payment.success' && order.paymentStatus === 'success') {
+  if (event === 'payment.success' && order.payment.status === 'success') {
     return { processed: false, reason: 'duplicate_success' };
   }
 
-  if (event === 'payment.failed' && order.paymentStatus === 'failed') {
+  if (event === 'payment.failed' && order.payment.status === 'failed') {
     return { processed: false, reason: 'duplicate_failure' };
   }
 
   if (event === 'payment.success') {
-    order.paymentStatus = 'success';
+    order.payment.status = 'success';
+    order.payment.transactionId = mockPaymentId;
+    order.payment.paidAt = new Date();
     order.status = 'confirmed';
-    order.payment = {
-      transactionId: mockPaymentId,
-      paidAt: new Date()
-    };
     await order.save();
     return { processed: true };
   }
 
   if (event === 'payment.failed') {
-    order.paymentStatus = 'failed';
+    order.payment.status = 'failed';
     order.status = 'cancelled';
     await order.save();
     return { processed: true };

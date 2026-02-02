@@ -12,8 +12,8 @@
 # 6. Run tests in sequence to observe state transitions
 
 @baseUrl = http://localhost:5000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYxZjIzMzZkMTc1ODRlYzc0YzgxZmEiLCJpYXQiOjE3Njk5MjIxNTUsImV4cCI6MTc3MDUyNjk1NX0.Jg4cRD3zyb-6Tr9P2vNOV2SQORIkwTkbU6S2cCt4kdQ
-@orderId = 697e250b03f3cf823f22c394
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYxZjIzMzZkMTc1ODRlYzc0YzgxZmEiLCJpYXQiOjE3NzAwNDQ2ODMsImV4cCI6MTc3MDY0OTQ4M30.48idVMP8GJkBwcFO1Dq6izkyjNeh5p-mDqxdy5PKzo0
+@orderId = 69706629924f420b59303b09
 
 
 ###############################################################################
@@ -25,8 +25,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@example.com",
-  "password": "password123"
+  "email": "test2@example.com",
+  "password": "password12345"
 }
 
 ### 2. Add product to cart (replace productId with actual)
@@ -225,7 +225,7 @@ Content-Type: application/json
 {
   "event": "payment.failed",
   "mockPaymentId": "mock_pay_scenario2_fail",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_2"
+  "orderId": "697066a9924f420b59303b1a"
 }
 
 ### TEST 6.2: Try to send success webhook after failure
@@ -237,12 +237,12 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_scenario2_success",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_2"
+  "orderId": "697066a9924f420b59303b1a"
 }
 
 ### TEST 6.3: Verify order remains failed (consistency preserved)
 # Expected: paymentStatus still "failed", status still "cancelled"
-GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_2
+GET {{baseUrl}}/orders/697066a9924f420b59303b1a
 Authorization: Bearer {{token}}
 
 
@@ -257,7 +257,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_scenario7_success",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_7"
+  "orderId": "6971c49eaf364035d66cd730"
 }
 
 ### TEST 7.2: Try to send failure webhook after success
@@ -270,12 +270,12 @@ Content-Type: application/json
 {
   "event": "payment.failed",
   "mockPaymentId": "mock_pay_scenario7_fail",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_7"
+  "orderId": "6971c49eaf364035d66cd730"
 }
 
 ### TEST 7.3: Verify order remains successful
 # Expected: paymentStatus still "success", status still "confirmed"
-GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_7
+GET {{baseUrl}}/orders/6971c49eaf364035d66cd730
 Authorization: Bearer {{token}}
 
 
@@ -290,7 +290,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+  "orderId": "6971caebaf364035d66cd799"
 }
 
 ### TEST 8.2: Create another payment intent for same order
@@ -301,12 +301,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+  "orderId": "6971caebaf364035d66cd799"
 }
 
 ### TEST 8.3: Verify order still pending (waiting for webhook)
 # Expected: paymentStatus = "pending"
-GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_8
+GET {{baseUrl}}/orders/6971caebaf364035d66cd799
 Authorization: Bearer {{token}}
 
 ### TEST 8.4: Send success webhook for latest payment
@@ -316,7 +316,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_scenario8_final",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_8"
+  "orderId": "6971caebaf364035d66cd799"
 }
 
 
@@ -324,18 +324,19 @@ Content-Type: application/json
 # SECTION 9: EDGE CASE - PAYMENT RETRY AFTER FAILURE (Scenario 4)
 ###############################################################################
 
-### TEST 9.1: Create order and mark as failed
+### TEST 9.1: Create order and mark as failed ** this 
+# phase 9 are let i am doing 10 first
 POST {{baseUrl}}/payments/mock/webhook
 Content-Type: application/json
 
 {
   "event": "payment.failed",
   "mockPaymentId": "mock_pay_scenario9_first_fail",
-  "orderId": "NEW_ORDER_FOR_SCENARIO_9"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 9.2: Verify order is failed
-GET {{baseUrl}}/orders/NEW_ORDER_FOR_SCENARIO_9
+GET {{baseUrl}}/orders/69706546c184299ecbfdf42d
 Authorization: Bearer {{token}}
 
 ### TEST 9.3: User retries payment (create new payment intent)
@@ -346,7 +347,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "orderId": "NEW_ORDER_FOR_SCENARIO_9"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 9.4: Verify order reset to pending
@@ -382,7 +383,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "orderId": "SUCCESSFUL_ORDER_ID"
+  "orderId": "69706629924f420b59303b09"
 }
 
 
@@ -397,7 +398,7 @@ Content-Type: application/json
 
 {
   "mockPaymentId": "mock_pay_test",
-  "orderId": "{{orderId}}"
+  "orderId": "69706629924f420b59303b09"
 }
 
 ### TEST 11.2: Send webhook without orderId
@@ -432,7 +433,7 @@ Content-Type: application/json
   "orderId": "{{orderId}}"
 }
 
-
+#next phase to test
 ###############################################################################
 # SECTION 12: COMPLETE PAYMENT FLOW (END-TO-END)
 ###############################################################################
@@ -491,7 +492,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_stress_test",
-  "orderId": "STRESS_TEST_ORDER_ID"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 
@@ -507,7 +508,7 @@ Content-Type: application/json
 {
   "event": "payment.success",
   "mockPaymentId": "mock_pay_security",
-  "orderId": "{{orderId}}"
+  "orderId": "69706546c184299ecbfdf42d"
 }
 
 ### TEST 14.2: Payment intent requires authentication

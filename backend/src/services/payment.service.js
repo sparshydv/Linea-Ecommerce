@@ -69,12 +69,33 @@ async function handleMockWebhook(payload) {
     throw err;
   }
 
+  // Check for duplicate events (same state being set again)
   if (event === 'payment.success' && order.payment.status === 'success') {
     return { processed: false, reason: 'duplicate_success' };
   }
 
   if (event === 'payment.failed' && order.payment.status === 'failed') {
     return { processed: false, reason: 'duplicate_failure' };
+  }
+
+  // Check for invalid state transitions (critical edge cases)
+  // Success after failure OR failure after success - both are invalid
+  if (event === 'payment.success' && order.payment.status === 'failed') {
+    return { 
+      processed: false, 
+      reason: 'invalid_state_transition',
+      requiresAdminReview: true,
+      severity: 'CRITICAL'
+    };
+  }
+
+  if (event === 'payment.failed' && order.payment.status === 'success') {
+    return { 
+      processed: false, 
+      reason: 'invalid_state_transition',
+      requiresAdminReview: true,
+      severity: 'CRITICAL'
+    };
   }
 
   if (event === 'payment.success') {

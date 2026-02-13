@@ -1,70 +1,28 @@
-import { ArrowRight, X, Minus, Plus } from "lucide-react";
+import { ArrowRight, X, Minus, Plus, Search } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ShoppingBag from "./ShoppingBag";
-import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
-import haloImage from "@/assets/halo.jpg";
+import { useCart } from "@/context/CartContext";
+import { formatPrice } from "@/lib/format";
+import { searchProducts } from "@/lib/api";
+import type { Product } from "@/types/product";
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-  quantity: number;
-  category: string;
-}
 
 const Navigation = () => {
+  const navigate = useNavigate();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
   
-  // Shopping bag state with 3 mock items
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: "Pantheon",
-      price: "€2,850",
-      image: pantheonImage,
-      quantity: 1,
-      category: "Earrings"
-    },
-    {
-      id: 2,
-      name: "Eclipse",
-      price: "€3,200", 
-      image: eclipseImage,
-      quantity: 1,
-      category: "Bracelets"
-    },
-    {
-      id: 3,
-      name: "Halo",
-      price: "€1,950",
-      image: haloImage, 
-      quantity: 1,
-      category: "Earrings"
-    }
-  ]);
-
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems(items => items.filter(item => item.id !== id));
-    } else {
-      setCartItems(items => 
-        items.map(item => 
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
-  };
+  // Use cart context
+  const { cart, totalItems, updateItem, removeItem, isLoggedIn } = useCart();
   
   // Preload dropdown images for faster display
   useEffect(() => {
@@ -81,6 +39,48 @@ const Navigation = () => {
       img.src = src;
     });
   }, []);
+
+  const handleSearch = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const result = await searchProducts({
+        q: query,
+        page: 1,
+        limit: 8,
+      });
+      setSearchResults(result.items);
+    } catch (err) {
+      console.error('Search failed:', err);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const performSearch = (query: string) => {
+    if (query.trim()) {
+      setIsSearchOpen(false);
+      setSearchQuery("");
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    handleSearch(value);
+  };
+
+  const handleSearchKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      performSearch(searchQuery);
+    }
+  };
 
   const popularSearches = [
     "Gold Rings",
@@ -315,26 +315,70 @@ const Navigation = () => {
                   <input
                     type="text"
                     placeholder="Search for jewelry..."
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    onKeyDown={handleSearchKeydown}
                     className="flex-1 bg-transparent text-nav-foreground placeholder:text-nav-foreground/60 outline-none text-lg"
                     autoFocus
                   />
                 </div>
               </div>
 
-              {/* Popular searches */}
-              <div>
-                <h3 className="text-nav-foreground text-sm font-light mb-4">Popular Searches</h3>
-                <div className="flex flex-wrap gap-3">
-                  {popularSearches.map((search, index) => (
-                    <button
-                      key={index}
-                      className="text-nav-foreground hover:text-nav-hover text-sm font-light py-2 px-4 border border-border rounded-full transition-colors duration-200 hover:border-nav-hover"
-                    >
-                      {search}
-                    </button>
-                  ))}
+              {/* Search results */}
+              {searchQuery && isSearching && (
+                <div className="mb-8">
+                  <p className="text-nav-foreground text-sm font-light">Searching...</p>
                 </div>
-              </div>
+              )}
+
+              {searchQuery && !isSearching && searchResults.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Search Results</h3>
+                  <div className="grid grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                    {searchResults.map((product) => (
+                      <Link
+                        key={product._id}
+                        to={`/product/${product.slug}`}
+                        onClick={() => setIsSearchOpen(false)}
+                        className="flex flex-col hover:opacity-70 transition-opacity"
+                      >
+                        {product.image && (
+                          <img 
+                            src={product.image} 
+                            alt={product.name}
+                            className="w-full h-32 object-cover mb-2"
+                          />
+                        )}
+                        <p className="text-nav-foreground text-xs font-light">{product.name}</p>
+                        <p className="text-nav-foreground/60 text-xs">{formatPrice(product.price)}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {searchQuery && !isSearching && searchResults.length === 0 && (
+                <div className="mb-8">
+                  <p className="text-nav-foreground text-sm font-light">No products found for "{searchQuery}"</p>
+                </div>
+              )}
+
+              {!searchQuery && (
+                <div>
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Popular Searches</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {popularSearches.map((search, index) => (
+                      <button
+                        key={index}
+                        onClick={() => performSearch(search)}
+                        className="text-nav-foreground hover:text-nav-hover text-sm font-light py-2 px-4 border border-border rounded-full transition-colors duration-200 hover:border-nav-hover"
+                      >
+                        {search}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -377,8 +421,10 @@ const Navigation = () => {
       <ShoppingBag 
         isOpen={isShoppingBagOpen}
         onClose={() => setIsShoppingBagOpen(false)}
-        cartItems={cartItems}
-        updateQuantity={updateQuantity}
+        cart={cart}
+        updateQuantity={updateItem}
+        removeItem={removeItem}
+        isLoggedIn={isLoggedIn}
         onViewFavorites={() => {
           setIsShoppingBagOpen(false);
           setOffCanvasType('favorites');

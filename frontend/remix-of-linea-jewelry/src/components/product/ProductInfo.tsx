@@ -9,18 +9,58 @@ import {
   BreadcrumbPage, 
   BreadcrumbSeparator 
 } from "@/components/ui/breadcrumb";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Heart } from "lucide-react";
 import type { Product } from "@/types/product";
 import { formatPrice } from "@/lib/format";
+import { useCart } from "@/context/CartContext";
+import * as wishlistApi from "@/lib/wishlist-api";
 
 interface ProductInfoProps {
   product: Product | null;
 }
+
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const { addItem, error, isLoggedIn } = useCart();
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
+
+  const handleAddToCart = async () => {
+    if (!product || !isLoggedIn) return;
+    
+    setIsAdding(true);
+    try {
+      await addItem(product._id, quantity);
+      setQuantity(1); // Reset quantity after adding
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleAddToWishlist = async () => {
+    if (!product || !isLoggedIn) return;
+    
+    setIsAddingToWishlist(true);
+    try {
+      if (isInWishlist) {
+        await wishlistApi.removeFromWishlist(product._id);
+        setIsInWishlist(false);
+      } else {
+        await wishlistApi.addToWishlist(product._id);
+        setIsInWishlist(true);
+      }
+    } catch (err) {
+      console.error('Failed to update wishlist:', err);
+    } finally {
+      setIsAddingToWishlist(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -115,10 +155,29 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         </div>
 
         <Button 
+          onClick={handleAddToCart}
+          disabled={isAdding || !isLoggedIn}
           className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-light rounded-none"
         >
-          Add to Bag
+          {!isLoggedIn ? "Log in to Add to Bag" : isAdding ? "Adding..." : "Add to Bag"}
         </Button>
+        
+        <Button 
+          onClick={handleAddToWishlist}
+          disabled={isAddingToWishlist || !isLoggedIn}
+          variant="outline"
+          size="sm"
+          className="w-full h-10 rounded-none font-light"
+        >
+          <Heart 
+            className={`h-4 w-4 mr-2 ${isInWishlist ? 'fill-current' : ''}`}
+          />
+          {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+        </Button>
+
+        {error && (
+          <p className="text-sm text-red-500">{error}</p>
+        )}
       </div>
     </div>
   );

@@ -23,14 +23,69 @@ interface FilterSortBarProps {
   filtersOpen: boolean;
   setFiltersOpen: (open: boolean) => void;
   itemCount: number;
+  onFilterChange?: (filters: {
+    categories: string[];
+    priceRanges: string[];
+    materials: string[];
+  }) => void;
+  onSortChange?: (sort: string) => void;
+  currentSort?: string;
 }
 
-const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBarProps) => {
-  const [sortBy, setSortBy] = useState("featured");
+const FilterSortBar = ({ 
+  filtersOpen, 
+  setFiltersOpen, 
+  itemCount,
+  onFilterChange,
+  onSortChange,
+  currentSort = "featured"
+}: FilterSortBarProps) => {
+  const [sortBy, setSortBy] = useState(currentSort);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
 
   const categories = ["Earrings", "Bracelets", "Rings", "Necklaces"];
   const priceRanges = ["Under €1,000", "€1,000 - €2,000", "€2,000 - €3,000", "Over €3,000"];
   const materials = ["Gold", "Silver", "Rose Gold", "Platinum"];
+
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    const updated = checked 
+      ? [...selectedCategories, category]
+      : selectedCategories.filter(c => c !== category);
+    setSelectedCategories(updated);
+    onFilterChange?.({ categories: updated, priceRanges: selectedPriceRanges, materials: selectedMaterials });
+  };
+
+  const handlePriceChange = (range: string, checked: boolean) => {
+    const updated = checked 
+      ? [...selectedPriceRanges, range]
+      : selectedPriceRanges.filter(r => r !== range);
+    setSelectedPriceRanges(updated);
+    onFilterChange?.({ categories: selectedCategories, priceRanges: updated, materials: selectedMaterials });
+  };
+
+  const handleMaterialChange = (material: string, checked: boolean) => {
+    const updated = checked 
+      ? [...selectedMaterials, material]
+      : selectedMaterials.filter(m => m !== material);
+    setSelectedMaterials(updated);
+    onFilterChange?.({ categories: selectedCategories, priceRanges: selectedPriceRanges, materials: updated });
+  };
+
+  const handleSortChange = (value: string) => {
+    setSortBy(value);
+    onSortChange?.(value);
+  };
+
+  const handleClearAll = () => {
+    setSelectedCategories([]);
+    setSelectedPriceRanges([]);
+    setSelectedMaterials([]);
+    setSortBy("featured");
+    onFilterChange?.({ categories: [], priceRanges: [], materials: [] });
+    onSortChange?.("featured");
+  };
 
   return (
     <>
@@ -63,7 +118,12 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                     <div className="space-y-3">
                       {categories.map((category) => (
                         <div key={category} className="flex items-center space-x-3">
-                          <Checkbox id={category} className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground" />
+                          <Checkbox 
+                            id={category} 
+                            className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground"
+                            checked={selectedCategories.includes(category)}
+                            onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
+                          />
                           <Label htmlFor={category} className="text-sm font-light text-foreground cursor-pointer">
                             {category}
                           </Label>
@@ -80,7 +140,12 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                     <div className="space-y-3">
                       {priceRanges.map((range) => (
                         <div key={range} className="flex items-center space-x-3">
-                          <Checkbox id={range} className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground" />
+                          <Checkbox 
+                            id={range} 
+                            className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground"
+                            checked={selectedPriceRanges.includes(range)}
+                            onCheckedChange={(checked) => handlePriceChange(range, checked as boolean)}
+                          />
                           <Label htmlFor={range} className="text-sm font-light text-foreground cursor-pointer">
                             {range}
                           </Label>
@@ -97,7 +162,12 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                     <div className="space-y-3">
                       {materials.map((material) => (
                         <div key={material} className="flex items-center space-x-3">
-                          <Checkbox id={material} className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground" />
+                          <Checkbox 
+                            id={material} 
+                            className="border-border data-[state=checked]:bg-foreground data-[state=checked]:border-foreground"
+                            checked={selectedMaterials.includes(material)}
+                            onCheckedChange={(checked) => handleMaterialChange(material, checked as boolean)}
+                          />
                           <Label htmlFor={material} className="text-sm font-light text-foreground cursor-pointer">
                             {material}
                           </Label>
@@ -112,7 +182,12 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                     <Button variant="ghost" size="sm" className="w-full border-none hover:bg-transparent hover:underline font-normal text-left justify-start">
                       Apply Filters
                     </Button>
-                    <Button variant="ghost" size="sm" className="w-full border-none hover:bg-transparent hover:underline font-light text-left justify-start">
+                    <Button 
+                      onClick={handleClearAll}
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full border-none hover:bg-transparent hover:underline font-light text-left justify-start"
+                    >
                       Clear All
                     </Button>
                   </div>
@@ -120,7 +195,7 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
               </SheetContent>
             </Sheet>
 
-            <Select value={sortBy} onValueChange={setSortBy}>
+            <Select value={sortBy} onValueChange={handleSortChange}>
               <SelectTrigger className="w-auto border-none bg-transparent text-sm font-light shadow-none rounded-none pr-2">
                 <SelectValue />
               </SelectTrigger>

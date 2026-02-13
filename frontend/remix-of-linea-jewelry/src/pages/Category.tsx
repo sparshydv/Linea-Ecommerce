@@ -18,6 +18,12 @@ const Category = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [selectedFilters, setSelectedFilters] = useState({
+    categories: [] as string[],
+    priceRanges: [] as string[],
+    materials: [] as string[],
+  });
+  const [sortBy, setSortBy] = useState("featured");
 
   const categoryLabel = useMemo(() => {
     if (!category || category === "shop" || category === "all") return "All Products";
@@ -37,6 +43,34 @@ const Category = () => {
     return normalized;
   }, [category]);
 
+  // Convert price ranges to min/max values
+  const getPriceRange = () => {
+    let minPrice = undefined;
+    let maxPrice = undefined;
+
+    if (selectedFilters.priceRanges.length > 0) {
+      const priceRanges = selectedFilters.priceRanges;
+      
+      if (priceRanges.includes("Under €1,000")) {
+        minPrice = 0;
+      }
+      if (priceRanges.includes("€1,000 - €2,000")) {
+        minPrice = Math.min(minPrice ?? 1000, 1000);
+        maxPrice = Math.max(maxPrice ?? 2000, 2000);
+      }
+      if (priceRanges.includes("€2,000 - €3,000")) {
+        minPrice = Math.min(minPrice ?? 2000, 2000);
+        maxPrice = Math.max(maxPrice ?? 3000, 3000);
+      }
+      if (priceRanges.includes("Over €3,000")) {
+        minPrice = Math.min(minPrice ?? 3000, 3000);
+        maxPrice = undefined; // No max for "Over €3,000"
+      }
+    }
+
+    return { minPrice, maxPrice };
+  };
+
   useEffect(() => {
     let isMounted = true;
 
@@ -45,12 +79,19 @@ const Category = () => {
         setLoading(true);
         setError(null);
 
+        const { minPrice, maxPrice } = getPriceRange();
+        const categoryFilter = selectedFilters.categories.length > 0 
+          ? selectedFilters.categories[0] 
+          : apiCategory;
+
         const result = await fetchProducts({
           page,
           limit: 12,
-          category: apiCategory,
+          category: categoryFilter,
           newArrivals: category === "new-in" ? 30 : undefined,
-          sort: "newest",
+          sort: sortBy,
+          minPrice,
+          maxPrice,
         });
 
         if (!isMounted) return;
@@ -70,7 +111,7 @@ const Category = () => {
     return () => {
       isMounted = false;
     };
-  }, [apiCategory, category, page]);
+  }, [apiCategory, category, page, selectedFilters, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,6 +124,15 @@ const Category = () => {
           filtersOpen={filtersOpen}
           setFiltersOpen={setFiltersOpen}
           itemCount={totalItems}
+          onFilterChange={(filters) => {
+            setSelectedFilters(filters);
+            setPage(1); // Reset to page 1 when filters change
+          }}
+          onSortChange={(sort) => {
+            setSortBy(sort);
+            setPage(1); // Reset to page 1 when sort changes
+          }}
+          currentSort={sortBy}
         />
         <ProductGrid products={items} loading={loading} error={error} />
         <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />

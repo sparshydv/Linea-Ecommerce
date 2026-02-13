@@ -17,6 +17,8 @@ export async function fetchProducts(params: {
   category?: string;
   sort?: string;
   newArrivals?: number;
+  minPrice?: number;
+  maxPrice?: number;
 }) {
   const search = new URLSearchParams();
   if (params.page) search.set('page', String(params.page));
@@ -24,10 +26,36 @@ export async function fetchProducts(params: {
   if (params.category) search.set('category', params.category);
   if (params.sort) search.set('sort', params.sort);
   if (params.newArrivals) search.set('newArrivals', String(params.newArrivals));
+  if (params.minPrice !== undefined) search.set('minPrice', String(params.minPrice));
+  if (params.maxPrice !== undefined) search.set('maxPrice', String(params.maxPrice));
 
   const query = search.toString();
   return request<{ items: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number } }>(
     `/products${query ? `?${query}` : ''}`
+  );
+}
+
+export async function searchProducts(params: {
+  q: string;
+  page?: number;
+  limit?: number;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: string;
+}) {
+  const search = new URLSearchParams();
+  search.set('q', params.q);
+  if (params.page) search.set('page', String(params.page));
+  if (params.limit) search.set('limit', String(params.limit));
+  if (params.category) search.set('category', params.category);
+  if (params.sort) search.set('sort', params.sort);
+  if (params.minPrice !== undefined) search.set('minPrice', String(params.minPrice));
+  if (params.maxPrice !== undefined) search.set('maxPrice', String(params.maxPrice));
+
+  const query = search.toString();
+  return request<{ items: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number } }>(
+    `/products/search${query ? `?${query}` : ''}`
   );
 }
 

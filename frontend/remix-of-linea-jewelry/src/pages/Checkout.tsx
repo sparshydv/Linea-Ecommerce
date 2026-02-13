@@ -10,12 +10,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
+import * as orderApi from "@/lib/order-api";
 
 const Checkout = () => {
   const navigate = useNavigate();
   // Get cart from context
-  const { cart, totalPrice, updateItem, removeItem, isLoggedIn } = useCart();
+  const { cart, totalPrice, updateItem, removeItem, isLoggedIn, clear } = useCart();
   const cartItems = cart?.items || [];
+  const [orderError, setOrderError] = useState<string | null>(null);
   
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -107,12 +109,43 @@ const Checkout = () => {
 
   const handleCompleteOrder = async () => {
     setIsProcessing(true);
+    setOrderError(null);
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setPaymentComplete(true);
+    try {
+      // Format shipping address as a string (use defaults if fields are empty)
+      const firstName = customerDetails.firstName || 'Guest';
+      const lastName = customerDetails.lastName || 'Customer';
+      const email = customerDetails.email || 'guest@example.com';
+      const address = shippingAddress.address || 'Address not provided';
+      const city = shippingAddress.city || 'City not provided';
+      const postalCode = shippingAddress.postalCode || '00000';
+      const country = shippingAddress.country || 'Country not provided';
+      const phone = customerDetails.phone || '';
+      
+      const addressString = `${firstName} ${lastName}, ${address}, ${city}, ${postalCode}, ${country}. Email: ${email}${phone ? ', Phone: ' + phone : ''}`;
+      
+      // Place the order with backend format
+      const order = await orderApi.placeOrder({
+        shippingAddress: addressString,
+        shippingCost: shipping,
+        taxRate: 0.18  // 18% tax rate
+      });
+      
+      // Clear the cart after successful order
+      await clear();
+      
+      setIsProcessing(false);
+      setPaymentComplete(true);
+      
+      // Redirect to orders page after 2 seconds
+      setTimeout(() => {
+        navigate('/orders');
+      }, 2000);
+    } catch (err) {
+      console.error('Order failed:', err);
+      setOrderError(err instanceof Error ? err.message : 'Failed to place order');
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -634,11 +667,15 @@ const Checkout = () => {
 
                   <Button
                     onClick={handleCompleteOrder}
-                    disabled={isProcessing || !paymentDetails.cardNumber || !paymentDetails.expiryDate || !paymentDetails.cvv || !paymentDetails.cardholderName}
+                    disabled={isProcessing || cartItems.length === 0}
                     className="w-full rounded-none h-12 text-base"
                   >
                     {isProcessing ? "Processing..." : `Complete Order • ${formatPrice(total)}`}
                   </Button>
+                  
+                  {orderError && (
+                    <p className="text-sm text-red-500 mt-2">{orderError}</p>
+                  )}
                 </div>
               ) : (
                 <div className="text-center py-12">
@@ -646,7 +683,8 @@ const Checkout = () => {
                     <Check className="h-8 w-8 text-green-600" />
                   </div>
                   <h3 className="text-xl font-light text-foreground mb-2">Order Complete!</h3>
-                  <p className="text-muted-foreground">Thank you for your purchase. Your order confirmation has been sent to your email.</p>
+                  <p className="text-muted-foreground mb-4">Thank you for your purchase. Your order has been placed successfully.</p>
+                  <p className="text-sm text-muted-foreground">Redirecting to your orders...</p>
                  </div>
                )}
              </div>

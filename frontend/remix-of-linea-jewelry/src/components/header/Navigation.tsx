@@ -1,4 +1,4 @@
-import { ArrowRight, X, Minus, Plus, Search } from "lucide-react";
+import { ArrowRight, X, Minus, Plus, Search, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +7,9 @@ import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
 import { searchProducts } from "@/lib/api";
+import * as wishlistApi from "@/lib/wishlist-api";
 import type { Product } from "@/types/product";
+import type { Wishlist } from "@/types/cart";
 
 
 const Navigation = () => {
@@ -20,9 +22,39 @@ const Navigation = () => {
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
+  const [wishlistItems, setWishlistItems] = useState<Wishlist[]>([]);
+  const [isLoadingWishlist, setIsLoadingWishlist] = useState(false);
   
   // Use cart context
-  const { cart, totalItems, updateItem, removeItem, isLoggedIn } = useCart();
+  const { cart, totalItems, updateItem, removeItem, isLoggedIn, logout } = useCart();
+  
+  // Load wishlist when favorites panel opens
+  useEffect(() => {
+    if (offCanvasType === 'favorites' && isLoggedIn) {
+      loadWishlist();
+    }
+  }, [offCanvasType, isLoggedIn]);
+  
+  const loadWishlist = async () => {
+    setIsLoadingWishlist(true);
+    try {
+      const items = await wishlistApi.getWishlist();
+      setWishlistItems(items);
+    } catch (err) {
+      console.error('Failed to load wishlist:', err);
+    } finally {
+      setIsLoadingWishlist(false);
+    }
+  };
+  
+  const handleRemoveFromWishlist = async (productId: string) => {
+    try {
+      await wishlistApi.removeFromWishlist(productId);
+      setWishlistItems(wishlistItems.filter(item => item.productId !== productId));
+    } catch (err) {
+      console.error('Failed to remove from wishlist:', err);
+    }
+  };
   
   // Preload dropdown images for faster display
   useEffect(() => {
@@ -207,15 +239,15 @@ const Navigation = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
           </button>
-          <button 
-            className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Favorites"
-            onClick={() => setOffCanvasType('favorites')}
+          <Link 
+            to={isLoggedIn ? "/wishlist" : "/auth/login"}
+            className="hidden lg:flex p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            aria-label="Wishlist"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
             </svg>
-          </button>
+          </Link>
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200 relative"
             aria-label="Shopping bag"
@@ -230,6 +262,26 @@ const Navigation = () => {
               </span>
             )}
           </button>
+          
+          {/* Login/Logout button */}
+          {isLoggedIn ? (
+            <button 
+              className="px-4 py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors duration-200 border border-nav-foreground/30 rounded hover:border-nav-foreground/60"
+              onClick={() => {
+                logout();
+                navigate('/');
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link 
+              to="/auth/login"
+              className="px-4 py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors duration-200 border border-nav-foreground/30 rounded hover:border-nav-foreground/60"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
 
@@ -431,38 +483,7 @@ const Navigation = () => {
         }}
       />
       
-      {/* Favorites Off-canvas overlay */}
-      {offCanvasType === 'favorites' && (
-        <div className="fixed inset-0 z-50 h-screen">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50 h-screen"
-            onClick={() => setOffCanvasType(null)}
-          />
-          
-          {/* Off-canvas panel */}
-          <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h2 className="text-lg font-light text-foreground">Your Favorites</h2>
-              <button
-                onClick={() => setOffCanvasType(null)}
-                className="p-2 text-foreground hover:text-muted-foreground transition-colors"
-                aria-label="Close"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            
-            {/* Content */}
-            <div className="p-6">
-              <p className="text-muted-foreground text-sm mb-6">
-                You haven't added any favorites yet. Browse our collection and click the heart icon to save items you love.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+
     </nav>
   );
 };

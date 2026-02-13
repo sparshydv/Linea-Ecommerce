@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -25,6 +25,23 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const { addItem, error, isLoggedIn } = useCart();
+
+  // Check if product is in wishlist when component loads or product changes
+  useEffect(() => {
+    const checkWishlist = async () => {
+      if (!product || !isLoggedIn) return;
+      
+      try {
+        const wishlist = await wishlistApi.getWishlist();
+        const inWishlist = wishlist.some(item => item.productId === product._id);
+        setIsInWishlist(inWishlist);
+      } catch (err) {
+        console.error('Failed to check wishlist:', err);
+      }
+    };
+    
+    checkWishlist();
+  }, [product, isLoggedIn]);
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));

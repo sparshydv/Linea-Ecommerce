@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Minus, Plus, CreditCard, Check } from "lucide-react";
 import CheckoutHeader from "../components/header/CheckoutHeader";
 import Footer from "../components/footer/Footer";
@@ -11,9 +12,17 @@ import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
 
 const Checkout = () => {
+  const navigate = useNavigate();
   // Get cart from context
-  const { cart, totalPrice, updateItem, removeItem } = useCart();
+  const { cart, totalPrice, updateItem, removeItem, isLoggedIn } = useCart();
   const cartItems = cart?.items || [];
+  
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/auth/login');
+    }
+  }, [isLoggedIn, navigate]);
   
   const [showDiscountInput, setShowDiscountInput] = useState(false);
   const [discountCode, setDiscountCode] = useState("");

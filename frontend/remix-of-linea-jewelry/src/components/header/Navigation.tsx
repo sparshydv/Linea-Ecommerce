@@ -178,25 +178,27 @@ const Navigation = () => {
         backdropFilter: 'blur(10px)'
       }}
     >
-      <div className="flex items-center justify-between h-16 px-6">
+      <div className="grid grid-cols-3 items-center h-16 px-6">
         {/* Mobile hamburger button */}
-        <button
-          className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <div className="w-5 h-5 relative">
-            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
-              isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1.5'
-            }`}></span>
-            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 top-2.5 ${
-              isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
-            }`}></span>
-            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
-              isMobileMenuOpen ? '-rotate-45 top-2.5' : 'top-3.5'
-            }`}></span>
-          </div>
-        </button>
+        <div className="flex items-center">
+          <button
+            className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="w-5 h-5 relative">
+              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1.5'
+              }`}></span>
+              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 top-2.5 ${
+                isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+              }`}></span>
+              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
+                isMobileMenuOpen ? '-rotate-45 top-2.5' : 'top-3.5'
+              }`}></span>
+            </div>
+          </button>
+        </div>
 
         {/* Left navigation - Hidden on tablets and mobile */}
         <div className="hidden lg:flex space-x-8">
@@ -218,7 +220,7 @@ const Navigation = () => {
         </div>
 
         {/* Center logo */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
+        <div className="flex items-center justify-center">
           <Link to="/" className="block">
             <img 
               src="/LINEA-1.svg" 
@@ -229,9 +231,9 @@ const Navigation = () => {
         </div>
 
         {/* Right icons */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-end space-x-1 sm:space-x-2">
           <button 
-            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            className="p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Search"
             onClick={() => setIsSearchOpen(!isSearchOpen)}
           >
@@ -241,7 +243,7 @@ const Navigation = () => {
           </button>
           <Link 
             to={isLoggedIn ? "/wishlist" : "/auth/login"}
-            className="hidden lg:flex p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            className="hidden lg:flex p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Wishlist"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -251,7 +253,7 @@ const Navigation = () => {
           {isLoggedIn ? (
             <Link 
               to="/orders"
-              className="hidden lg:flex p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+              className="hidden lg:flex p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
               aria-label="Orders"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">

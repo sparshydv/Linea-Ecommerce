@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCart } from '@/context/CartContext';
 import GoogleLoginButton from '@/components/auth/GoogleLoginButton';
-import heroImage from '@/assets/hero-image.png';
+import heroImage from '@/assets/organic-earring.png';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -180,7 +180,7 @@ const Register = () => {
       <div className="hidden md:block relative">
         <img 
           src={heroImage} 
-          alt="LINEA Jewelry Collection" 
+          alt="LINEA Jewelry Detail" 
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/20" />

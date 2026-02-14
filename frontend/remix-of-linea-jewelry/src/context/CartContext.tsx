@@ -20,6 +20,7 @@ interface CartContextType {
   // Auth functions
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
+  loginWithGoogle: (code: string) => Promise<void>;
   logout: () => void;
   
   // Cart functions
@@ -164,6 +165,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [fetchCart]);
 
+  const loginWithGoogle = useCallback(async (code: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const { user: authUser, token } = await authApi.googleLogin(code);
+      setToken(token);
+      setStoredUser(authUser);
+      setUser(authUser);
+      setIsLoggedIn(true);
+      setTimeout(() => fetchCart(), 100);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Google sign-in failed';
+      setError(message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fetchCart]);
+
   // Logout
   const logout = useCallback(() => {
     removeToken();
@@ -198,6 +218,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     totalPrice,
     login,
     register,
+    loginWithGoogle,
     logout,
     fetchCart,
     addItem,

@@ -1,4 +1,4 @@
-const { registerUser, loginUser } = require('../services/auth.service');
+const { registerUser, loginUser, loginWithGoogle } = require('../services/auth.service');
 const { HTTP_STATUS } = require('../constants/httpStatus');
 
 const register = async (req, res, next) => {
@@ -21,6 +21,16 @@ const login = async (req, res, next) => {
   }
 };
 
+const googleLogin = async (req, res, next) => {
+  try {
+    const { code } = req.body;
+    const result = await loginWithGoogle({ code });
+    res.status(HTTP_STATUS.OK).json({ success: true, data: result });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getCurrentUser = (req, res) => {
   res.status(HTTP_STATUS.OK).json({ success: true, data: req.user });
 };
@@ -28,5 +38,6 @@ const getCurrentUser = (req, res) => {
 module.exports = {
   register,
   login,
+  googleLogin,
   getCurrentUser,
 };

@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useCart } from '@/context/CartContext';
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
+import GoogleLoginButton from '@/components/auth/GoogleLoginButton';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Login = () => {
     password: '',
   });
   const [localError, setLocalError] = useState<string | null>(null);
+  const googleEnabled = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,6 +100,20 @@ const Login = () => {
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
+
+            {googleEnabled && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <span className="h-px flex-1 bg-border" />
+                  <span>or</span>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+                <GoogleLoginButton
+                  onSuccess={() => navigate('/')}
+                  onError={message => setLocalError(message)}
+                />
+              </div>
+            )}
 
             <div className="text-center">
               <p className="text-muted-foreground text-sm">

@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User.model');
 
 /**
@@ -24,6 +25,7 @@ async function registerUser({ email, password, name }) {
     email,
     password: hashedPassword,
     name,
+    authProvider: 'local',
   });
 
   const token = generateToken(user._id);
@@ -54,6 +56,12 @@ async function loginUser({ email, password }) {
     throw error;
   }
 
+  if (!user.password) {
+    const error = new Error('Use Google sign-in for this account');
+    error.statusCode = 400;
+    throw error;
+  }
+
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     const error = new Error('Invalid credentials');
@@ -65,6 +73,89 @@ async function loginUser({ email, password }) {
     const error = new Error('Account is disabled');
     error.statusCode = 403;
     throw error;
+  }
+
+  const token = generateToken(user._id);
+
+  return {
+    user: {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    },
+    token,
+  };
+}
+
+/**
+ * Authenticate or register a user with Google OAuth.
+ */
+async function loginWithGoogle({ code }) {
+  if (!code) {
+    const error = new Error('Authorization code is required');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'postmessage';
+
+  if (!clientId || !clientSecret) {
+    throw new Error('Google OAuth is not configured');
+  }
+
+  const oauthClient = new OAuth2Client(clientId, clientSecret, redirectUri);
+  const { tokens } = await oauthClient.getToken({ code, redirect_uri: redirectUri });
+
+  if (!tokens.id_token) {
+    const error = new Error('Google token exchange failed');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  const ticket = await oauthClient.verifyIdToken({
+    idToken: tokens.id_token,
+    audience: clientId,
+  });
+
+  const payload = ticket.getPayload();
+  if (!payload || !payload.email || !payload.sub) {
+    const error = new Error('Invalid Google identity');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  const email = payload.email.toLowerCase();
+  const googleId = payload.sub;
+  const displayName = payload.name || payload.given_name || email.split('@')[0];
+
+  let user = await User.findOne({ $or: [{ googleId }, { email }] });
+
+  if (!user) {
+    user = await User.create({
+      email,
+      name: displayName,
+      googleId,
+      authProvider: 'google',
+    });
+  } else {
+    if (!user.googleId) {
+      user.googleId = googleId;
+    }
+
+    if (!user.name && displayName) {
+      user.name = displayName;
+    }
+
+    if (!user.isActive) {
+      const error = new Error('Account is disabled');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    await user.save();
   }
 
   const token = generateToken(user._id);
@@ -94,4 +185,5 @@ function generateToken(userId) {
 module.exports = {
   registerUser,
   loginUser,
+  loginWithGoogle,
 };

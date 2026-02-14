@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       maxlength: 120,
     },
+    avatarUrl: {
+      type: String,
+      trim: true,
+    },
     googleId: {
       type: String,
       unique: true,

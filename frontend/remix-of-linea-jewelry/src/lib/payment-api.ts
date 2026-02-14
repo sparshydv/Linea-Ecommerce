@@ -26,11 +26,11 @@ export interface PaymentWebhookResult {
 /**
  * Create mock payment intent for an order
  */
-export async function createMockPaymentIntent(orderId: string): Promise<MockPaymentIntent> {
+export async function createMockPaymentIntent(orderId: string, paymentMethod?: 'cod' | 'upi' | 'card'): Promise<MockPaymentIntent> {
   const response = await fetch(`${API_BASE}/payments/mock/intent`, {
     method: 'POST',
     headers: getAuthHeader(),
-    body: JSON.stringify({ orderId }),
+    body: JSON.stringify({ orderId, paymentMethod }),
   });
 
   if (!response.ok) {

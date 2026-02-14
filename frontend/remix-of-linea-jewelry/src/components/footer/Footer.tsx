@@ -72,7 +72,7 @@ const Footer = () => {
       <div className="border-t border-[#e5e5e5] -mx-6 px-6 pt-2">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm font-light text-black mb-1 md:mb-0">
-            © 2024 Linea. All rights reserved. Made with ❤ by {" "}
+            © 2026 Linea. All rights reserved. Made with ❤ by {" "}
             <a href="https://sparsh-portfolioo.netlify.app/" target="_blank" rel="noopener noreferrer" className="hover:text-black/70 transition-colors underline">
               Sparsh Yadav
             </a>

@@ -1,7 +1,7 @@
 const Order = require('../models/Order.model');
 const crypto = require('crypto');
 
-async function createMockPayment(orderId, userId) {
+async function createMockPayment(orderId, userId, paymentMethod) {
   const order = await Order.findById(orderId);
 
   if (!order) {
@@ -34,9 +34,21 @@ async function createMockPayment(orderId, userId) {
     await order.save();
   }
 
-  // Set payment method if not already set
-  if (!order.payment.method) {
-    order.payment.method = 'credit_card'; // Default for mock payments
+  const allowedPaymentMethods = new Set(['cod', 'upi', 'card']);
+
+  if (paymentMethod) {
+    if (!allowedPaymentMethods.has(paymentMethod)) {
+      const err = new Error('Invalid payment method');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    if (order.payment.method !== paymentMethod) {
+      order.payment.method = paymentMethod;
+      await order.save();
+    }
+  } else if (!order.payment.method) {
+    order.payment.method = 'cod';
     await order.save();
   }
 

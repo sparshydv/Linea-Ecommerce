@@ -55,8 +55,8 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-background grid md:grid-cols-2">
       {/* Left Side - Form */}
-      <div className="flex items-center justify-center p-8 md:p-12">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex items-start justify-center px-8 py-6 md:px-12 md:py-8">
+        <div className="w-full max-w-md space-y-6">
           <div>
             <Link to="/" className="text-2xl font-light text-foreground hover:opacity-80 transition-opacity">
               LINEA
@@ -68,7 +68,7 @@ const Register = () => {
             <p className="text-muted-foreground font-light">Join us to start shopping</p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {googleEnabled && (
               <>
                 <GoogleLoginButton
@@ -84,7 +84,7 @@ const Register = () => {
               </>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {(error || localError) && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm font-light">
                   {error || localError}
@@ -164,7 +164,7 @@ const Register = () => {
               </Button>
             </form>
 
-            <div className="text-center pt-2">
+            <div className="text-center pt-1">
               <p className="text-sm font-light text-muted-foreground">
                 Already have an account?{' '}
                 <Link to="/auth/login" className="text-foreground hover:underline">

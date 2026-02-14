@@ -149,7 +149,17 @@ const OrderDetail = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted-foreground mb-1">Method</p>
-                    <p className="text-foreground capitalize">{order.payment?.method || "N/A"}</p>
+                    <p className="text-foreground">
+                      {order.payment?.method === 'cod'
+                        ? 'COD'
+                        : order.payment?.method === 'upi'
+                        ? 'UPI'
+                        : order.payment?.method === 'card'
+                        ? 'Card'
+                        : order.payment?.method
+                        ? order.payment.method.replace(/_/g, ' ')
+                        : 'N/A'}
+                    </p>
                   </div>
                   <div>
                     <p className="text-muted-foreground mb-1">Status</p>

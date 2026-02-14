@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Minus, Plus, CreditCard, Check } from "lucide-react";
+import { Minus, Plus, Check } from "lucide-react";
 import CheckoutHeader from "../components/header/CheckoutHeader";
 import Footer from "../components/footer/Footer";
 import { Button } from "@/components/ui/button";
@@ -52,13 +52,7 @@ const Checkout = () => {
     postalCode: "",
     country: ""
   });
-  const [shippingOption, setShippingOption] = useState("standard");
-  const [paymentDetails, setPaymentDetails] = useState({
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardholderName: ""
-  });
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentComplete, setPaymentComplete] = useState(false);
 
@@ -73,14 +67,7 @@ const Checkout = () => {
   const subtotal = totalPrice;
 
   const getShippingCost = () => {
-    switch (shippingOption) {
-      case "express":
-        return 15;
-      case "overnight":
-        return 35;
-      default:
-        return 0; // Standard shipping is free
-    }
+    return subtotal > 499 ? 0 : 70;
   };
   
   const shipping = getShippingCost();
@@ -104,9 +91,21 @@ const Checkout = () => {
     setBillingDetails(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePaymentDetailsChange = (field: string, value: string) => {
-    setPaymentDetails(prev => ({ ...prev, [field]: value }));
-  };
+  const isCustomerComplete = Boolean(
+    customerDetails.email &&
+    customerDetails.firstName &&
+    customerDetails.lastName
+  );
+
+  const isShippingComplete = Boolean(
+    shippingAddress.address &&
+    shippingAddress.city &&
+    shippingAddress.postalCode &&
+    shippingAddress.country
+  );
+
+  const isPaymentSelected = Boolean(paymentMethod);
+  const canCompleteOrder = isCustomerComplete && isShippingComplete && isPaymentSelected && cartItems.length > 0 && !isProcessing;
 
   const handleCompleteOrder = async () => {
     setIsProcessing(true);
@@ -123,16 +122,21 @@ const Checkout = () => {
       const country = shippingAddress.country || 'Country not provided';
       const phone = customerDetails.phone || '';
       
-      const addressString = `${firstName} ${lastName}, ${address}, ${city}, ${postalCode}, ${country}. Email: ${email}${phone ? ', Phone: ' + phone : ''}`;
+      const nameLine = `${firstName} ${lastName}`;
+      const addressLine = `${address}, ${city}, ${postalCode}, ${country}`;
+      const emailLine = `Email: ${email}`;
+      const phoneLine = `Phone: ${phone || '-'}`;
+      const addressString = [nameLine, addressLine, emailLine, phoneLine].join('\n');
       
       // Place the order with backend format
       const order = await orderApi.placeOrder({
         shippingAddress: addressString,
         shippingCost: shipping,
-        taxRate: 0.18  // 18% tax rate
+        taxRate: 0,
+        paymentMethod,
       });
 
-      const paymentIntent = await paymentApi.createMockPaymentIntent(order._id);
+      const paymentIntent = await paymentApi.createMockPaymentIntent(order._id, paymentMethod as 'cod' | 'upi' | 'card');
       const paymentResult = await paymentApi.handleMockPaymentWebhook(
         "payment.success",
         paymentIntent.mockPaymentId,
@@ -528,136 +532,44 @@ const Checkout = () => {
                 </div>
               </div>
 
-            {/* Shipping Options */}
-            <div className="bg-muted/20 p-8 rounded-none">
-              <h2 className="text-lg font-light text-foreground mb-6">Shipping Options</h2>
-              
-              <RadioGroup 
-                value={shippingOption} 
-                onValueChange={setShippingOption}
-                className="space-y-4"
-              >
-                <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="standard" id="standard" />
-                    <Label htmlFor="standard" className="font-light text-foreground">
-                      Standard Shipping
-                    </Label>
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    Free • 3-5 business days
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="express" id="express" />
-                    <Label htmlFor="express" className="font-light text-foreground">
-                      Express Shipping
-                    </Label>
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    €15 • 1-2 business days
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="overnight" id="overnight" />
-                    <Label htmlFor="overnight" className="font-light text-foreground">
-                      Overnight Delivery
-                    </Label>
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    €35 • Next business day
-                  </div>
-                </div>
-              </RadioGroup>
-            </div>
-
             {/* Payment Section */}
             <div className="bg-muted/20 p-8 rounded-none">
               <h2 className="text-lg font-light text-foreground mb-6">Payment Details</h2>
               
               {!paymentComplete ? (
                 <div className="space-y-6">
-                  <div>
-                    <Label htmlFor="cardholderName" className="text-sm font-light text-foreground">
-                      Cardholder Name *
-                    </Label>
-                    <Input
-                      id="cardholderName"
-                      type="text"
-                      value={paymentDetails.cardholderName}
-                      onChange={(e) => handlePaymentDetailsChange("cardholderName", e.target.value)}
-                      className="mt-2 rounded-none"
-                      placeholder="Name on card"
-                    />
-                  </div>
+                  <RadioGroup
+                    value={paymentMethod}
+                    onValueChange={setPaymentMethod}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem value="cod" id="payment-cod" />
+                        <Label htmlFor="payment-cod" className="font-light text-foreground">
+                          Cash on Delivery
+                        </Label>
+                      </div>
+                    </div>
 
-                  <div>
-                    <Label htmlFor="cardNumber" className="text-sm font-light text-foreground">
-                      Card Number *
-                    </Label>
-                    <div className="relative mt-2">
-                      <Input
-                        id="cardNumber"
-                        type="text"
-                        value={paymentDetails.cardNumber}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
-                          if (value.length <= 19) {
-                            handlePaymentDetailsChange("cardNumber", value);
-                          }
-                        }}
-                        className="rounded-none pl-10"
-                        placeholder="4242 4242 4242 4242"
-                        maxLength={19}
-                      />
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem value="upi" id="payment-upi" />
+                        <Label htmlFor="payment-upi" className="font-light text-foreground">
+                          UPI
+                        </Label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="expiryDate" className="text-sm font-light text-foreground">
-                        Expiry Date *
-                      </Label>
-                      <Input
-                        id="expiryDate"
-                        type="text"
-                        value={paymentDetails.expiryDate}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, '').replace(/(\d{2})(\d{2})/, '$1/$2');
-                          if (value.length <= 5) {
-                            handlePaymentDetailsChange("expiryDate", value);
-                          }
-                        }}
-                        className="mt-2 rounded-none"
-                        placeholder="MM/YY"
-                        maxLength={5}
-                      />
+                    <div className="flex items-center justify-between p-4 border border-muted-foreground/20 rounded-none">
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem value="card" id="payment-card" />
+                        <Label htmlFor="payment-card" className="font-light text-foreground">
+                          Card
+                        </Label>
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="cvv" className="text-sm font-light text-foreground">
-                        CVV *
-                      </Label>
-                      <Input
-                        id="cvv"
-                        type="text"
-                        value={paymentDetails.cvv}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, '');
-                          if (value.length <= 3) {
-                            handlePaymentDetailsChange("cvv", value);
-                          }
-                        }}
-                        className="mt-2 rounded-none"
-                        placeholder="123"
-                        maxLength={3}
-                      />
-                    </div>
-                  </div>
+                  </RadioGroup>
 
                   {/* Order Total Summary */}
                   <div className="bg-muted/10 p-6 rounded-none border border-muted-foreground/20 space-y-3">
@@ -679,11 +591,17 @@ const Checkout = () => {
 
                   <Button
                     onClick={handleCompleteOrder}
-                    disabled={isProcessing || cartItems.length === 0}
+                    disabled={!canCompleteOrder}
                     className="w-full rounded-none h-12 text-base"
                   >
                     {isProcessing ? "Processing..." : `Complete Order • ${formatPrice(total)}`}
                   </Button>
+
+                  {!canCompleteOrder && (
+                    <p className="text-xs text-muted-foreground">
+                      Complete customer details, shipping address, and select a payment option to place your order.
+                    </p>
+                  )}
                   
                   {orderError && (
                     <p className="text-sm text-red-500 mt-2">{orderError}</p>

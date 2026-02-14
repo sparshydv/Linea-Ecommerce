@@ -22,7 +22,7 @@ export interface OrderPricing {
 }
 
 export interface OrderPayment {
-  method: string;
+  method: 'cod' | 'upi' | 'card' | string;
   status: 'pending' | 'success' | 'failed';
   transactionId?: string;
   paidAt?: string;
@@ -45,6 +45,7 @@ interface PlaceOrderOptions {
   shippingAddress?: string;
   shippingCost?: number;
   taxRate?: number;
+  paymentMethod?: 'cod' | 'upi' | 'card';
 }
 
 /**

@@ -35,6 +35,7 @@ async function registerUser({ email, password, name }) {
       id: user._id,
       email: user.email,
       name: user.name,
+      avatarUrl: user.avatarUrl || null,
       role: user.role,
     },
     token,
@@ -82,6 +83,7 @@ async function loginUser({ email, password }) {
       id: user._id,
       email: user.email,
       name: user.name,
+      avatarUrl: user.avatarUrl || null,
       role: user.role,
     },
     token,
@@ -130,6 +132,7 @@ async function loginWithGoogle({ code }) {
   const email = payload.email.toLowerCase();
   const googleId = payload.sub;
   const displayName = payload.name || payload.given_name || email.split('@')[0];
+  const avatarUrl = payload.picture || null;
 
   let user = await User.findOne({ $or: [{ googleId }, { email }] });
 
@@ -137,6 +140,7 @@ async function loginWithGoogle({ code }) {
     user = await User.create({
       email,
       name: displayName,
+      avatarUrl,
       googleId,
       authProvider: 'google',
     });
@@ -147,6 +151,10 @@ async function loginWithGoogle({ code }) {
 
     if (!user.name && displayName) {
       user.name = displayName;
+    }
+
+    if (!user.avatarUrl && avatarUrl) {
+      user.avatarUrl = avatarUrl;
     }
 
     if (!user.isActive) {
@@ -165,6 +173,7 @@ async function loginWithGoogle({ code }) {
       id: user._id,
       email: user.email,
       name: user.name,
+      avatarUrl: user.avatarUrl || null,
       role: user.role,
     },
     token,

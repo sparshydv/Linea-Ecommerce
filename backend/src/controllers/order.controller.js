@@ -6,17 +6,18 @@ const { HTTP_STATUS } = require('../constants/httpStatus');
  * POST /api/orders
  * Protected: Requires authentication
  *
- * Body: { shippingAddress?, shippingCost?, taxRate? }
+ * Body: { shippingAddress?, shippingCost?, taxRate?, paymentMethod? }
  */
 const placeOrder = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { shippingAddress, shippingCost, taxRate } = req.body;
+    const { shippingAddress, shippingCost, taxRate, paymentMethod } = req.body;
 
     const order = await createOrderFromCart(userId, {
       shippingAddress,
       shippingCost,
       taxRate,
+      paymentMethod,
     });
 
     res.status(HTTP_STATUS.CREATED).json({

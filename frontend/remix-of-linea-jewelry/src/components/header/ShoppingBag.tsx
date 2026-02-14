@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -25,6 +26,15 @@ const ShoppingBag = ({
 }: ShoppingBagProps) => {
   if (!isOpen) return null;
 
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   const cartItems = cart?.items || [];
   const subtotal = cartItems.reduce((sum, item) => sum + (item.priceSnapshot * item.quantity), 0) || 0;
 
@@ -45,7 +55,7 @@ const ShoppingBag = ({
       />
       
       {/* Off-canvas panel */}
-      <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
+      <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-lg font-light text-foreground">Shopping Bag</h2>
@@ -59,7 +69,7 @@ const ShoppingBag = ({
         </div>
         
         {/* Content */}
-        <div className="flex-1 flex flex-col p-6">
+        <div className="flex-1 min-h-0 flex flex-col p-6">
           {/* Mobile favorites toggle - only show on mobile */}
           {onViewFavorites && (
             <div className="md:hidden mb-6 pb-6 border-b border-border">
@@ -94,7 +104,7 @@ const ShoppingBag = ({
           ) : (
             <>
               {/* Cart items */}
-              <div className="flex-1 overflow-y-auto space-y-6 mb-6">
+              <div className="flex-1 min-h-0 overflow-y-auto space-y-6 mb-6 pr-2 overscroll-contain">
                 {cartItems.map((item) => {
                   const imageUrl = item.product.images?.[0]?.url || '';
                   return (

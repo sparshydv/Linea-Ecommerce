@@ -22,11 +22,12 @@ const Navigation = () => {
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [wishlistItems, setWishlistItems] = useState<Wishlist[]>([]);
   const [isLoadingWishlist, setIsLoadingWishlist] = useState(false);
   
   // Use cart context
-  const { cart, totalItems, updateItem, removeItem, isLoggedIn, logout } = useCart();
+  const { cart, totalItems, updateItem, removeItem, isLoggedIn, logout, user } = useCart();
   
   // Load wishlist when favorites panel opens
   useEffect(() => {
@@ -170,6 +171,16 @@ const Navigation = () => {
     }
   ];
 
+  const userInitials = user?.name
+    ? user.name
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part[0])
+        .join('')
+        .toUpperCase()
+    : user?.email?.[0]?.toUpperCase() || '';
+
   return (
     <nav 
       className="relative" 
@@ -178,27 +189,25 @@ const Navigation = () => {
         backdropFilter: 'blur(10px)'
       }}
     >
-      <div className="grid grid-cols-3 items-center h-16 px-6">
+      <div className="flex items-center justify-between h-16 px-6">
         {/* Mobile hamburger button */}
-        <div className="flex items-center">
-          <button
-            className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="w-5 h-5 relative">
-              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
-                isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1.5'
-              }`}></span>
-              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 top-2.5 ${
-                isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
-              }`}></span>
-              <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
-                isMobileMenuOpen ? '-rotate-45 top-2.5' : 'top-3.5'
-              }`}></span>
-            </div>
-          </button>
-        </div>
+        <button
+          className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <div className="w-5 h-5 relative">
+            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
+              isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1.5'
+            }`}></span>
+            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 top-2.5 ${
+              isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+            }`}></span>
+            <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
+              isMobileMenuOpen ? '-rotate-45 top-2.5' : 'top-3.5'
+            }`}></span>
+          </div>
+        </button>
 
         {/* Left navigation - Hidden on tablets and mobile */}
         <div className="hidden lg:flex space-x-8">
@@ -220,7 +229,7 @@ const Navigation = () => {
         </div>
 
         {/* Center logo */}
-        <div className="flex items-center justify-center">
+        <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="block">
             <img 
               src="/LINEA-1.svg" 
@@ -231,9 +240,9 @@ const Navigation = () => {
         </div>
 
         {/* Right icons */}
-        <div className="flex items-center justify-end space-x-1 sm:space-x-2">
+        <div className="flex items-center space-x-2">
           <button 
-            className="p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Search"
             onClick={() => setIsSearchOpen(!isSearchOpen)}
           >
@@ -243,32 +252,13 @@ const Navigation = () => {
           </button>
           <Link 
             to={isLoggedIn ? "/wishlist" : "/auth/login"}
-            className="hidden lg:flex p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            className="hidden lg:flex p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Wishlist"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
             </svg>
           </Link>
-          {isLoggedIn ? (
-            <Link 
-              to="/orders"
-              className="hidden lg:flex p-1.5 sm:p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-              aria-label="Orders"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-              </svg>
-            </Link>
-          ) : (
-            <Link 
-              to="/auth/login"
-              className="hidden lg:flex p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200 text-sm font-light"
-              aria-label="Login"
-            >
-              Login
-            </Link>
-          )}
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200 relative"
             aria-label="Shopping bag"
@@ -284,25 +274,118 @@ const Navigation = () => {
             )}
           </button>
           
-          {/* Login/Logout button */}
+          {/* User menu (desktop) */}
           {isLoggedIn ? (
-            <button 
-              className="px-4 py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors duration-200 border border-nav-foreground/30 rounded hover:border-nav-foreground/60"
-              onClick={() => {
-                logout();
-                navigate('/');
-              }}
-            >
-              Logout
-            </button>
+            <div className="relative hidden md:block">
+              <button
+                type="button"
+                className="w-9 h-9 rounded-full border border-nav-foreground/20 overflow-hidden flex items-center justify-center"
+                aria-label="Account menu"
+                onClick={() => setIsUserMenuOpen(prev => !prev)}
+              >
+                {user?.avatarUrl ? (
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name || 'User avatar'}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-xs font-medium text-nav-foreground">
+                    {userInitials || 'U'}
+                  </span>
+                )}
+              </button>
+
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-40 rounded-md border border-border bg-white shadow-lg z-50">
+                  <Link
+                    to="/orders"
+                    className="block px-4 py-2 text-sm text-nav-foreground hover:bg-nav/60"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    Orders
+                  </Link>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm text-nav-foreground hover:bg-nav/60"
+                    onClick={() => {
+                      setIsUserMenuOpen(false);
+                      logout();
+                      navigate('/');
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link 
               to="/auth/login"
-              className="px-4 py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors duration-200 border border-nav-foreground/30 rounded hover:border-nav-foreground/60"
+              className="hidden md:flex px-4 py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors duration-200 border border-nav-foreground/30 rounded hover:border-nav-foreground/60"
             >
               Login
             </Link>
           )}
+
+          {/* User menu (mobile) */}
+          <div className="relative md:hidden">
+            <button
+              type="button"
+              className="w-9 h-9 rounded-full border border-nav-foreground/20 overflow-hidden flex items-center justify-center"
+              aria-label="Account menu"
+              onClick={() => setIsUserMenuOpen(prev => !prev)}
+            >
+              {isLoggedIn && user?.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt={user.name || 'User avatar'}
+                  className="w-full h-full object-cover"
+                />
+              ) : isLoggedIn ? (
+                <span className="text-xs font-medium text-nav-foreground">
+                  {userInitials || 'U'}
+                </span>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.118a7.5 7.5 0 0 1 15 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.5-1.632Z" />
+                </svg>
+              )}
+            </button>
+
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 w-40 rounded-md border border-border bg-white shadow-lg z-50">
+                {isLoggedIn ? (
+                  <>
+                    <Link
+                      to="/orders"
+                      className="block px-4 py-2 text-sm text-nav-foreground hover:bg-nav/60"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Orders
+                    </Link>
+                    <button
+                      className="w-full text-left px-4 py-2 text-sm text-nav-foreground hover:bg-nav/60"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        logout();
+                        navigate('/');
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/auth/login"
+                    className="block px-4 py-2 text-sm text-nav-foreground hover:bg-nav/60"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

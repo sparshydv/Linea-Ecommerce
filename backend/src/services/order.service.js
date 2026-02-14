@@ -30,12 +30,18 @@ async function generateOrderNumber() {
  * - Clears user's cart
  *
  * @param {string} userId - User ID from auth middleware
- * @param {object} orderOptions - { shippingAddress, shippingCost (default 0), taxRate (default 0.1) }
+ * @param {object} orderOptions - { shippingAddress, shippingCost (default 0), taxRate (default 0.1), paymentMethod }
  * @returns {object} Created order document
  * @throws {Error} If cart empty, unauthorized, or DB error
  */
 async function createOrderFromCart(userId, orderOptions = {}) {
-  const { shippingAddress = 'TBD', shippingCost = 0, taxRate = 0.1 } = orderOptions;
+  const {
+    shippingAddress = 'TBD',
+    shippingCost = 0,
+    taxRate = 0.1,
+    paymentMethod = 'cod',
+  } = orderOptions;
+  const allowedPaymentMethods = new Set(['cod', 'upi', 'card']);
 
   if (!userId) {
     const error = new Error('User ID required');
@@ -53,6 +59,12 @@ async function createOrderFromCart(userId, orderOptions = {}) {
   // Validate tax rate
   if (taxRate < 0) {
     const error = new Error('Tax rate cannot be negative');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!allowedPaymentMethods.has(paymentMethod)) {
+    const error = new Error('Invalid payment method');
     error.statusCode = 400;
     throw error;
   }
@@ -105,7 +117,7 @@ async function createOrderFromCart(userId, orderOptions = {}) {
     },
     status: 'pending',
     payment: {
-      method: 'cod', // Default to Cash on Delivery
+      method: paymentMethod,
       status: 'pending',
     },
     shippingAddress,

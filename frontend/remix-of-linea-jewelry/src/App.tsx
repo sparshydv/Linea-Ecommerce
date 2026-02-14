@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
 import Wishlist from "./pages/Wishlist";
 import NotFound from "./pages/NotFound";
 import OurStory from "./pages/about/OurStory";
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/about/our-story" element={<OurStory />} />
           <Route path="/about/sustainability" element={<Sustainability />} />

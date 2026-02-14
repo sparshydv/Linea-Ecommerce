@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
 import * as orderApi from "@/lib/order-api";
+import * as paymentApi from "@/lib/payment-api";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -130,6 +131,17 @@ const Checkout = () => {
         shippingCost: shipping,
         taxRate: 0.18  // 18% tax rate
       });
+
+      const paymentIntent = await paymentApi.createMockPaymentIntent(order._id);
+      const paymentResult = await paymentApi.handleMockPaymentWebhook(
+        "payment.success",
+        paymentIntent.mockPaymentId,
+        order._id
+      );
+
+      if (!paymentResult.processed) {
+        throw new Error("Payment could not be confirmed. Please try again.");
+      }
       
       // Clear the cart after successful order
       await clear();

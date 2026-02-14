@@ -27,7 +27,7 @@ export interface PaymentWebhookResult {
  * Create mock payment intent for an order
  */
 export async function createMockPaymentIntent(orderId: string): Promise<MockPaymentIntent> {
-  const response = await fetch(`${API_BASE}/payment/mock/intent`, {
+  const response = await fetch(`${API_BASE}/payments/mock/intent`, {
     method: 'POST',
     headers: getAuthHeader(),
     body: JSON.stringify({ orderId }),
@@ -50,7 +50,7 @@ export async function handleMockPaymentWebhook(
   mockPaymentId: string,
   orderId: string
 ): Promise<PaymentWebhookResult> {
-  const response = await fetch(`${API_BASE}/payment/mock/webhook`, {
+  const response = await fetch(`${API_BASE}/payments/mock/webhook`, {
     method: 'POST',
     headers: getAuthHeader(),
     body: JSON.stringify({ event, mockPaymentId, orderId }),

@@ -186,12 +186,7 @@ const Register = () => {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center justify-center p-12">
           <div className="text-center text-white">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 drop-shadow-lg">
-              Discover timeless
-            </h2>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light drop-shadow-lg">
-              elegance
-            </h2>
+            
           </div>
         </div>
       </div>

@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCart } from '@/context/CartContext';
-import Header from '@/components/header/Header';
-import Footer from '@/components/footer/Footer';
 import GoogleLoginButton from '@/components/auth/GoogleLoginButton';
+import heroImage from '@/assets/hero-image.png';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -54,20 +53,40 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header />
-      
-      <main className="flex-1 flex items-center justify-center py-12">
-        <div className="w-full max-w-md mx-auto px-6">
-          <div className="space-y-8">
-            <div className="text-center">
-              <h1 className="text-3xl font-light text-foreground mb-2">Create Account</h1>
-              <p className="text-muted-foreground">Join us to start shopping</p>
-            </div>
+    <div className="min-h-screen bg-background grid md:grid-cols-2">
+      {/* Left Side - Form */}
+      <div className="flex items-center justify-center p-8 md:p-12">
+        <div className="w-full max-w-md space-y-8">
+          <div>
+            <Link to="/" className="text-2xl font-light text-foreground hover:opacity-80 transition-opacity">
+              LINEA
+            </Link>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-normal text-foreground mb-2">Create account</h1>
+            <p className="text-muted-foreground font-light">Join us to start shopping</p>
+          </div>
+
+          <div className="space-y-4">
+            {googleEnabled && (
+              <>
+                <GoogleLoginButton
+                  onSuccess={() => navigate('/')}
+                  onError={message => setLocalError(message)}
+                />
+                
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="font-light">OR</span>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+              </>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
               {(error || localError) && (
-                <div className="p-4 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+                <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm font-light">
                   {error || localError}
                 </div>
               )}
@@ -82,15 +101,15 @@ const Register = () => {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="John Doe"
-                  className="rounded-none"
+                  placeholder="Enter your full name"
+                  className="h-11 font-light"
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-light">
-                  Email Address
+                  Email
                 </Label>
                 <Input
                   id="email"
@@ -98,8 +117,8 @@ const Register = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="you@example.com"
-                  className="rounded-none"
+                  placeholder="Enter your email address"
+                  className="h-11 font-light"
                   disabled={isLoading}
                 />
               </div>
@@ -114,8 +133,8 @@ const Register = () => {
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="•••••••"
-                  className="rounded-none"
+                  placeholder="Input your password"
+                  className="h-11 font-light"
                   disabled={isLoading}
                 />
               </div>
@@ -130,48 +149,52 @@ const Register = () => {
                   type="password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="•••••••"
-                  className="rounded-none"
+                  placeholder="Confirm your password"
+                  className="h-11 font-light"
                   disabled={isLoading}
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full rounded-none h-12"
+                className="w-full h-12 font-normal"
                 disabled={isLoading}
               >
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </Button>
             </form>
 
-            {googleEnabled && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <span className="h-px flex-1 bg-border" />
-                  <span>or</span>
-                  <span className="h-px flex-1 bg-border" />
-                </div>
-                <GoogleLoginButton
-                  onSuccess={() => navigate('/')}
-                  onError={message => setLocalError(message)}
-                />
-              </div>
-            )}
-
-            <div className="text-center">
-              <p className="text-muted-foreground text-sm">
+            <div className="text-center pt-2">
+              <p className="text-sm font-light text-muted-foreground">
                 Already have an account?{' '}
-                <Link to="/auth/login" className="text-foreground hover:underline font-light">
+                <Link to="/auth/login" className="text-foreground hover:underline">
                   Sign in
                 </Link>
               </p>
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
-      <Footer />
+      {/* Right Side - Image */}
+      <div className="hidden md:block relative">
+        <img 
+          src={heroImage} 
+          alt="LINEA Jewelry Collection" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 flex items-center justify-center p-12">
+          <div className="text-center text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 drop-shadow-lg">
+              Discover timeless
+            </h2>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light drop-shadow-lg">
+              elegance
+            </h2>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

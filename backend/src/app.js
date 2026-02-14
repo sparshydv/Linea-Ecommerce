@@ -26,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
 // Routes
+app.get('/', (req, res) => res.status(200).json({ status: 'ok', service: 'LINEA API' }));
 app.use('/health', healthRouter);
 app.use('/api/products', productRouter);
 app.use('/api/auth', authRouter);

@@ -320,4 +320,3 @@ npm install @react-oauth/google
 
 ---
 
-If you want, I can also add badges (build/deploy), API request examples, and a small architecture diagram for GitHub README polish.

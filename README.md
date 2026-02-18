@@ -287,38 +287,6 @@ npm run seed
 
 ---
 
-## Deployment Guide
-
-### Backend on Render
-1. Create a Render Web Service from `backend/`
-2. Build command: `npm install`
-3. Start command: `npm start`
-4. Set env vars from backend section above
-5. Health check path: `/health`
-6. Redeploy after env updates
-
-Notes:
-- Root route (`/`) returns 200 for platform checks/pings
-- API routes are under `/api/*`
-
-### Frontend on Vercel/Netlify
-1. Deploy `frontend/remix-of-linea-jewelry/`
-2. Build command: `npm run build`
-3. Output directory: `dist`
-4. Set frontend env vars:
-   - `VITE_API_BASE_URL` → deployed backend URL + `/api`
-   - `VITE_GOOGLE_CLIENT_ID`
-
-### Google OAuth Setup (Production)
-1. In Google Cloud Console, create OAuth Client (Web application)
-2. Configure Authorized JavaScript origins:
-   - Local: `http://localhost:5173`
-   - Production: your frontend domain
-3. Use same `GOOGLE_CLIENT_ID` in backend and frontend
-4. Backend uses `GOOGLE_REDIRECT_URI=postmessage`
-
----
-
 ## Testing / API Validation
 - HTTP test collections are available in backend:
   - `PHASE-6-TESTS.http`

@@ -10,6 +10,7 @@ This repository contains:
 
 ## Table of Contents
 - [Overview](#overview)
+- [Screenshots](#screenshots)
 - [What’s Implemented](#whats-implemented)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -42,6 +43,40 @@ LINEA is a jewelry-focused commerce platform with:
 - Orders list + order detail view
 
 The backend provides REST APIs, while the frontend consumes them via typed API utilities.
+
+---
+
+## Screenshots
+
+### 1) Home / Landing
+Main storefront hero and featured collections.
+
+![Home / Landing](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210546.png)
+
+### 2) Product Discovery (Category / Search)
+Browse products with filtering and navigation.
+
+![Product Discovery](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210603.png)
+
+### 3) Authentication
+Login/register flow with optional Google sign-in.
+
+![Authentication](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210811.png)
+
+### 4) Cart / Shopping Bag
+Off-canvas bag with quantity controls and checkout CTA.
+
+![Cart / Shopping Bag](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210828.png)
+
+### 5) Product / Detail View
+Product details, pricing, and purchase actions.
+
+![Product Detail](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210845.png)
+
+### 6) Orders / Post-Purchase
+Order history and detail tracking after purchase.
+
+![Orders](frontend/remix-of-linea-jewelry/src/real-images/Screenshot%202026-02-18%20210923.png)
 
 ---
 

@@ -4,11 +4,56 @@ const Product = require('../models/Product.model');
  * Build common product filter based on query params
  * Supports: category, price range, new arrivals
  */
-function buildProductFilter({ category, minPrice, maxPrice, newArrivals }) {
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function parseListParam(value) {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((item) => String(item).split(','))
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return String(value)
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function resolveSortOption(sort) {
+  switch (sort) {
+    case 'price_asc':
+    case 'price-low':
+      return { finalPrice: 1 };
+    case 'price_desc':
+    case 'price-high':
+      return { finalPrice: -1 };
+    case 'name':
+    case 'name_asc':
+    case 'name-asc':
+      return { name: 1 };
+    case 'featured':
+    case 'newest':
+    default:
+      return { createdAt: -1 };
+  }
+}
+
+function buildProductFilter({ category, minPrice, maxPrice, newArrivals, materials }) {
   const filter = { isActive: true };
+  const andConditions = [];
 
   if (category) {
-    filter.category = category;
+    const categories = parseListParam(category);
+    if (categories.length === 1) {
+      filter.category = categories[0];
+    } else if (categories.length > 1) {
+      filter.category = { $in: categories };
+    }
   }
 
   // Price range filtering (validate numbers)
@@ -32,23 +77,39 @@ function buildProductFilter({ category, minPrice, maxPrice, newArrivals }) {
     filter.createdAt = { $gte: cutoffDate };
   }
 
+  const materialTerms = parseListParam(materials);
+  if (materialTerms.length > 0) {
+    const materialRegexConditions = materialTerms.map((material) => {
+      const regex = new RegExp(escapeRegex(material), 'i');
+      return {
+        $or: [
+          { tags: regex },
+          { name: regex },
+          { category: regex },
+        ],
+      };
+    });
+
+    andConditions.push({ $or: materialRegexConditions });
+  }
+
+  if (andConditions.length > 0) {
+    filter.$and = andConditions;
+  }
+
   return filter;
 }
 
 /**
  * Fetch paginated products with optional category filter and sorting.
- * Sorting options: price_asc, price_desc, newest (default).
+ * Sorting options: price_asc/price-low, price_desc/price-high, newest/featured, name.
  */
-async function getProducts({ page = 1, limit = 10, category, minPrice, maxPrice, newArrivals, sort = 'newest' }) {
+async function getProducts({ page = 1, limit = 10, category, minPrice, maxPrice, newArrivals, sort = 'newest', materials }) {
   const pageNum = Math.max(parseInt(page, 10) || 1, 1);
   const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
 
-  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals });
-
-  let sortOption = { createdAt: -1 };
-  if (sort === 'price_asc') sortOption = { finalPrice: 1 };
-  if (sort === 'price_desc') sortOption = { finalPrice: -1 };
-  if (sort === 'newest') sortOption = { createdAt: -1 };
+  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals, materials });
+  const sortOption = resolveSortOption(sort);
 
   const skip = (pageNum - 1) * limitNum;
 
@@ -86,11 +147,11 @@ async function getProductBySlug(slug) {
  * Supports optional category filter and pagination
  * Backend-driven for performance and data security
  */
-async function searchProducts({ q, category, minPrice, maxPrice, newArrivals, page = 1, limit = 10, sort = 'newest' }) {
+async function searchProducts({ q, category, minPrice, maxPrice, newArrivals, page = 1, limit = 10, sort = 'newest', materials }) {
   const pageNum = Math.max(parseInt(page, 10) || 1, 1);
   const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
 
-  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals });
+  const filter = buildProductFilter({ category, minPrice, maxPrice, newArrivals, materials });
 
   // Text search with case-insensitive regex
   if (q && q.trim()) {
@@ -104,10 +165,7 @@ async function searchProducts({ q, category, minPrice, maxPrice, newArrivals, pa
     ];
   }
 
-  let sortOption = { createdAt: -1 };
-  if (sort === 'price_asc') sortOption = { finalPrice: 1 };
-  if (sort === 'price_desc') sortOption = { finalPrice: -1 };
-  if (sort === 'newest') sortOption = { createdAt: -1 };
+  const sortOption = resolveSortOption(sort);
 
   const skip = (pageNum - 1) * limitNum;
 

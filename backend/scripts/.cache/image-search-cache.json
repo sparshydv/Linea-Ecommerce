@@ -1,0 +1,902 @@
+{
+  "pantheon-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\eclipse.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779876/linea/products/pantheon-earring-edition-698f4561586a9a89ca4a4698.jpg",
+    "cloudinaryPublicId": "linea/products/pantheon-earring-edition-698f4561586a9a89ca4a4698"
+  },
+  "eclipse-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779879/linea/products/eclipse-earring-698f4561586a9a89ca4a4699.jpg",
+    "cloudinaryPublicId": "linea/products/eclipse-earring-698f4561586a9a89ca4a4699"
+  },
+  "halo-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779882/linea/products/halo-earring-698f4561586a9a89ca4a469a.jpg",
+    "cloudinaryPublicId": "linea/products/halo-earring-698f4561586a9a89ca4a469a"
+  },
+  "oblique-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779884/linea/products/oblique-earring-edition-698f4561586a9a89ca4a469b.jpg",
+    "cloudinaryPublicId": "linea/products/oblique-earring-edition-698f4561586a9a89ca4a469b"
+  },
+  "lintel-earring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779887/linea/products/lintel-earring-noir-698f4561586a9a89ca4a469c.jpg",
+    "cloudinaryPublicId": "linea/products/lintel-earring-noir-698f4561586a9a89ca4a469c"
+  },
+  "shadowline-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779890/linea/products/shadowline-earring-698f4561586a9a89ca4a469d.jpg",
+    "cloudinaryPublicId": "linea/products/shadowline-earring-698f4561586a9a89ca4a469d"
+  },
+  "meridian-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779892/linea/products/meridian-earring-edition-698f4561586a9a89ca4a469e.jpg",
+    "cloudinaryPublicId": "linea/products/meridian-earring-edition-698f4561586a9a89ca4a469e"
+  },
+  "vertex-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779895/linea/products/vertex-earring-698f4561586a9a89ca4a469f.jpg",
+    "cloudinaryPublicId": "linea/products/vertex-earring-698f4561586a9a89ca4a469f"
+  },
+  "apex-earring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779897/linea/products/apex-earring-noir-698f4561586a9a89ca4a46a0.jpg",
+    "cloudinaryPublicId": "linea/products/apex-earring-noir-698f4561586a9a89ca4a46a0"
+  },
+  "zenith-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779900/linea/products/zenith-earring-edition-698f4561586a9a89ca4a46a1.jpg",
+    "cloudinaryPublicId": "linea/products/zenith-earring-edition-698f4561586a9a89ca4a46a1"
+  },
+  "prism-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779902/linea/products/prism-earring-698f4561586a9a89ca4a46a2.jpg",
+    "cloudinaryPublicId": "linea/products/prism-earring-698f4561586a9a89ca4a46a2"
+  },
+  "radiant-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\eclipse.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779905/linea/products/radiant-earring-698f4561586a9a89ca4a46a3.jpg",
+    "cloudinaryPublicId": "linea/products/radiant-earring-698f4561586a9a89ca4a46a3"
+  },
+  "stellar-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779907/linea/products/stellar-earring-edition-698f4561586a9a89ca4a46a4.jpg",
+    "cloudinaryPublicId": "linea/products/stellar-earring-edition-698f4561586a9a89ca4a46a4"
+  },
+  "cosmos-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779910/linea/products/cosmos-earring-698f4561586a9a89ca4a46a5.jpg",
+    "cloudinaryPublicId": "linea/products/cosmos-earring-698f4561586a9a89ca4a46a5"
+  },
+  "aurora-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779913/linea/products/aurora-earring-698f4561586a9a89ca4a46a6.jpg",
+    "cloudinaryPublicId": "linea/products/aurora-earring-698f4561586a9a89ca4a46a6"
+  },
+  "nebula-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\eclipse.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779915/linea/products/nebula-earring-edition-698f4561586a9a89ca4a46a7.jpg",
+    "cloudinaryPublicId": "linea/products/nebula-earring-edition-698f4561586a9a89ca4a46a7"
+  },
+  "orbit-earring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779920/linea/products/orbit-earring-noir-698f4561586a9a89ca4a46a8.jpg",
+    "cloudinaryPublicId": "linea/products/orbit-earring-noir-698f4561586a9a89ca4a46a8"
+  },
+  "galaxy-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779922/linea/products/galaxy-earring-698f4561586a9a89ca4a46a9.jpg",
+    "cloudinaryPublicId": "linea/products/galaxy-earring-698f4561586a9a89ca4a46a9"
+  },
+  "lunar-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\eclipse.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779926/linea/products/lunar-earring-edition-698f4561586a9a89ca4a46aa.jpg",
+    "cloudinaryPublicId": "linea/products/lunar-earring-edition-698f4561586a9a89ca4a46aa"
+  },
+  "solar-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\organic-earring.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779929/linea/products/solar-earring-698f4561586a9a89ca4a46ab.jpg",
+    "cloudinaryPublicId": "linea/products/solar-earring-698f4561586a9a89ca4a46ab"
+  },
+  "astral-earring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779932/linea/products/astral-earring-noir-698f4561586a9a89ca4a46ac.jpg",
+    "cloudinaryPublicId": "linea/products/astral-earring-noir-698f4561586a9a89ca4a46ac"
+  },
+  "cosmic-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\eclipse.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779935/linea/products/cosmic-earring-edition-698f4561586a9a89ca4a46ad.jpg",
+    "cloudinaryPublicId": "linea/products/cosmic-earring-edition-698f4561586a9a89ca4a46ad"
+  },
+  "celestial-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779938/linea/products/celestial-earring-698f4561586a9a89ca4a46ae.jpg",
+    "cloudinaryPublicId": "linea/products/celestial-earring-698f4561586a9a89ca4a46ae"
+  },
+  "ethereal-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\organic-earring.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779941/linea/products/ethereal-earring-698f4561586a9a89ca4a46af.jpg",
+    "cloudinaryPublicId": "linea/products/ethereal-earring-698f4561586a9a89ca4a46af"
+  },
+  "arcus-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779943/linea/products/arcus-earring-edition-698f4561586a9a89ca4a46b0.jpg",
+    "cloudinaryPublicId": "linea/products/arcus-earring-edition-698f4561586a9a89ca4a46b0"
+  },
+  "vesper-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\halo.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779946/linea/products/vesper-earring-698f4561586a9a89ca4a46b1.jpg",
+    "cloudinaryPublicId": "linea/products/vesper-earring-698f4561586a9a89ca4a46b1"
+  },
+  "nocturne-earring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\pantheon.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779949/linea/products/nocturne-earring-698f4561586a9a89ca4a46b2.jpg",
+    "cloudinaryPublicId": "linea/products/nocturne-earring-698f4561586a9a89ca4a46b2"
+  },
+  "solis-earring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\earrings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779952/linea/products/solis-earring-edition-698f4561586a9a89ca4a46b3.jpg",
+    "cloudinaryPublicId": "linea/products/solis-earring-edition-698f4561586a9a89ca4a46b3"
+  },
+  "drift-ring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779955/linea/products/drift-ring-noir-698f4561586a9a89ca4a46b4.jpg",
+    "cloudinaryPublicId": "linea/products/drift-ring-noir-698f4561586a9a89ca4a46b4"
+  },
+  "helix-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\oblique.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779957/linea/products/helix-ring-698f4561586a9a89ca4a46b5.jpg",
+    "cloudinaryPublicId": "linea/products/helix-ring-698f4561586a9a89ca4a46b5"
+  },
+  "pantheon-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\lintel.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779959/linea/products/pantheon-ring-edition-698f4561586a9a89ca4a46b6.jpg",
+    "cloudinaryPublicId": "linea/products/pantheon-ring-edition-698f4561586a9a89ca4a46b6"
+  },
+  "eclipse-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779962/linea/products/eclipse-ring-698f4561586a9a89ca4a46b7.jpg",
+    "cloudinaryPublicId": "linea/products/eclipse-ring-698f4561586a9a89ca4a46b7"
+  },
+  "halo-ring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779964/linea/products/halo-ring-noir-698f4561586a9a89ca4a46b8.jpg",
+    "cloudinaryPublicId": "linea/products/halo-ring-noir-698f4561586a9a89ca4a46b8"
+  },
+  "oblique-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779968/linea/products/oblique-ring-edition-698f4561586a9a89ca4a46b9.jpg",
+    "cloudinaryPublicId": "linea/products/oblique-ring-edition-698f4561586a9a89ca4a46b9"
+  },
+  "lintel-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779971/linea/products/lintel-ring-698f4561586a9a89ca4a46ba.jpg",
+    "cloudinaryPublicId": "linea/products/lintel-ring-698f4561586a9a89ca4a46ba"
+  },
+  "shadowline-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\oblique.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779973/linea/products/shadowline-ring-698f4561586a9a89ca4a46bb.jpg",
+    "cloudinaryPublicId": "linea/products/shadowline-ring-698f4561586a9a89ca4a46bb"
+  },
+  "meridian-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\lintel.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779976/linea/products/meridian-ring-edition-698f4561586a9a89ca4a46bc.jpg",
+    "cloudinaryPublicId": "linea/products/meridian-ring-edition-698f4561586a9a89ca4a46bc"
+  },
+  "vertex-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779978/linea/products/vertex-ring-698f4561586a9a89ca4a46bd.jpg",
+    "cloudinaryPublicId": "linea/products/vertex-ring-698f4561586a9a89ca4a46bd"
+  },
+  "apex-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779981/linea/products/apex-ring-698f4561586a9a89ca4a46be.jpg",
+    "cloudinaryPublicId": "linea/products/apex-ring-698f4561586a9a89ca4a46be"
+  },
+  "zenith-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\oblique.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779983/linea/products/zenith-ring-edition-698f4561586a9a89ca4a46bf.jpg",
+    "cloudinaryPublicId": "linea/products/zenith-ring-edition-698f4561586a9a89ca4a46bf"
+  },
+  "prism-ring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779986/linea/products/prism-ring-noir-698f4561586a9a89ca4a46c0.jpg",
+    "cloudinaryPublicId": "linea/products/prism-ring-noir-698f4561586a9a89ca4a46c0"
+  },
+  "radiant-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779989/linea/products/radiant-ring-698f4561586a9a89ca4a46c1.jpg",
+    "cloudinaryPublicId": "linea/products/radiant-ring-698f4561586a9a89ca4a46c1"
+  },
+  "stellar-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779991/linea/products/stellar-ring-edition-698f4561586a9a89ca4a46c2.jpg",
+    "cloudinaryPublicId": "linea/products/stellar-ring-edition-698f4561586a9a89ca4a46c2"
+  },
+  "cosmos-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779994/linea/products/cosmos-ring-698f4561586a9a89ca4a46c3.jpg",
+    "cloudinaryPublicId": "linea/products/cosmos-ring-698f4561586a9a89ca4a46c3"
+  },
+  "aurora-ring-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779997/linea/products/aurora-ring-noir-698f4561586a9a89ca4a46c4.jpg",
+    "cloudinaryPublicId": "linea/products/aurora-ring-noir-698f4561586a9a89ca4a46c4"
+  },
+  "nebula-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772779999/linea/products/nebula-ring-edition-698f4561586a9a89ca4a46c5.jpg",
+    "cloudinaryPublicId": "linea/products/nebula-ring-edition-698f4561586a9a89ca4a46c5"
+  },
+  "orbit-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\oblique.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780002/linea/products/orbit-ring-698f4561586a9a89ca4a46c6.jpg",
+    "cloudinaryPublicId": "linea/products/orbit-ring-698f4561586a9a89ca4a46c6"
+  },
+  "galaxy-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780006/linea/products/galaxy-ring-698f4561586a9a89ca4a46c7.jpg",
+    "cloudinaryPublicId": "linea/products/galaxy-ring-698f4561586a9a89ca4a46c7"
+  },
+  "lunar-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\lintel.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780008/linea/products/lunar-ring-edition-698f4561586a9a89ca4a46c8.jpg",
+    "cloudinaryPublicId": "linea/products/lunar-ring-edition-698f4561586a9a89ca4a46c8"
+  },
+  "solar-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\shadowline-1.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780011/linea/products/solar-ring-698f4561586a9a89ca4a46c9.jpg",
+    "cloudinaryPublicId": "linea/products/solar-ring-698f4561586a9a89ca4a46c9"
+  },
+  "astral-ring": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\rings-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780013/linea/products/astral-ring-698f4561586a9a89ca4a46ca.jpg",
+    "cloudinaryPublicId": "linea/products/astral-ring-698f4561586a9a89ca4a46ca"
+  },
+  "cosmic-ring-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\oblique.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780017/linea/products/cosmic-ring-edition-698f4561586a9a89ca4a46cb.jpg",
+    "cloudinaryPublicId": "linea/products/cosmic-ring-edition-698f4561586a9a89ca4a46cb"
+  },
+  "celestial-necklace-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780019/linea/products/celestial-necklace-noir-698f4561586a9a89ca4a46cc.jpg",
+    "cloudinaryPublicId": "linea/products/celestial-necklace-noir-698f4561586a9a89ca4a46cc"
+  },
+  "ethereal-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780021/linea/products/ethereal-necklace-698f4561586a9a89ca4a46cd.jpg",
+    "cloudinaryPublicId": "linea/products/ethereal-necklace-698f4561586a9a89ca4a46cd"
+  },
+  "arcus-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780024/linea/products/arcus-necklace-edition-698f4561586a9a89ca4a46ce.jpg",
+    "cloudinaryPublicId": "linea/products/arcus-necklace-edition-698f4561586a9a89ca4a46ce"
+  },
+  "vesper-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780027/linea/products/vesper-necklace-698f4561586a9a89ca4a46cf.jpg",
+    "cloudinaryPublicId": "linea/products/vesper-necklace-698f4561586a9a89ca4a46cf"
+  },
+  "nocturne-necklace-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780029/linea/products/nocturne-necklace-noir-698f4561586a9a89ca4a46d0.jpg",
+    "cloudinaryPublicId": "linea/products/nocturne-necklace-noir-698f4561586a9a89ca4a46d0"
+  },
+  "solis-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780032/linea/products/solis-necklace-edition-698f4561586a9a89ca4a46d1.jpg",
+    "cloudinaryPublicId": "linea/products/solis-necklace-edition-698f4561586a9a89ca4a46d1"
+  },
+  "drift-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780034/linea/products/drift-necklace-698f4561586a9a89ca4a46d2.jpg",
+    "cloudinaryPublicId": "linea/products/drift-necklace-698f4561586a9a89ca4a46d2"
+  },
+  "helix-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780037/linea/products/helix-necklace-698f4561586a9a89ca4a46d3.jpg",
+    "cloudinaryPublicId": "linea/products/helix-necklace-698f4561586a9a89ca4a46d3"
+  },
+  "pantheon-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780040/linea/products/pantheon-necklace-edition-698f4561586a9a89ca4a46d4.jpg",
+    "cloudinaryPublicId": "linea/products/pantheon-necklace-edition-698f4561586a9a89ca4a46d4"
+  },
+  "eclipse-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780042/linea/products/eclipse-necklace-698f4561586a9a89ca4a46d5.jpg",
+    "cloudinaryPublicId": "linea/products/eclipse-necklace-698f4561586a9a89ca4a46d5"
+  },
+  "halo-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780045/linea/products/halo-necklace-698f4561586a9a89ca4a46d6.jpg",
+    "cloudinaryPublicId": "linea/products/halo-necklace-698f4561586a9a89ca4a46d6"
+  },
+  "oblique-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780047/linea/products/oblique-necklace-edition-698f4561586a9a89ca4a46d7.jpg",
+    "cloudinaryPublicId": "linea/products/oblique-necklace-edition-698f4561586a9a89ca4a46d7"
+  },
+  "lintel-necklace-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780049/linea/products/lintel-necklace-noir-698f4561586a9a89ca4a46d8.jpg",
+    "cloudinaryPublicId": "linea/products/lintel-necklace-noir-698f4561586a9a89ca4a46d8"
+  },
+  "shadowline-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780051/linea/products/shadowline-necklace-698f4561586a9a89ca4a46d9.jpg",
+    "cloudinaryPublicId": "linea/products/shadowline-necklace-698f4561586a9a89ca4a46d9"
+  },
+  "meridian-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780054/linea/products/meridian-necklace-edition-698f4561586a9a89ca4a46da.jpg",
+    "cloudinaryPublicId": "linea/products/meridian-necklace-edition-698f4561586a9a89ca4a46da"
+  },
+  "vertex-necklace": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780057/linea/products/vertex-necklace-698f4561586a9a89ca4a46db.jpg",
+    "cloudinaryPublicId": "linea/products/vertex-necklace-698f4561586a9a89ca4a46db"
+  },
+  "apex-necklace-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780059/linea/products/apex-necklace-noir-698f4561586a9a89ca4a46dc.jpg",
+    "cloudinaryPublicId": "linea/products/apex-necklace-noir-698f4561586a9a89ca4a46dc"
+  },
+  "zenith-necklace-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780061/linea/products/zenith-necklace-edition-698f4561586a9a89ca4a46dd.jpg",
+    "cloudinaryPublicId": "linea/products/zenith-necklace-edition-698f4561586a9a89ca4a46dd"
+  },
+  "prism-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780064/linea/products/prism-bracelet-698f4561586a9a89ca4a46de.jpg",
+    "cloudinaryPublicId": "linea/products/prism-bracelet-698f4561586a9a89ca4a46de"
+  },
+  "radiant-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780066/linea/products/radiant-bracelet-698f4561586a9a89ca4a46df.jpg",
+    "cloudinaryPublicId": "linea/products/radiant-bracelet-698f4561586a9a89ca4a46df"
+  },
+  "stellar-bracelet-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780068/linea/products/stellar-bracelet-edition-698f4561586a9a89ca4a46e0.jpg",
+    "cloudinaryPublicId": "linea/products/stellar-bracelet-edition-698f4561586a9a89ca4a46e0"
+  },
+  "cosmos-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780071/linea/products/cosmos-bracelet-698f4561586a9a89ca4a46e1.jpg",
+    "cloudinaryPublicId": "linea/products/cosmos-bracelet-698f4561586a9a89ca4a46e1"
+  },
+  "aurora-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780073/linea/products/aurora-bracelet-698f4561586a9a89ca4a46e2.jpg",
+    "cloudinaryPublicId": "linea/products/aurora-bracelet-698f4561586a9a89ca4a46e2"
+  },
+  "nebula-bracelet-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780075/linea/products/nebula-bracelet-edition-698f4561586a9a89ca4a46e3.jpg",
+    "cloudinaryPublicId": "linea/products/nebula-bracelet-edition-698f4561586a9a89ca4a46e3"
+  },
+  "orbit-bracelet-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\span-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780078/linea/products/orbit-bracelet-noir-698f4561586a9a89ca4a46e4.jpg",
+    "cloudinaryPublicId": "linea/products/orbit-bracelet-noir-698f4561586a9a89ca4a46e4"
+  },
+  "galaxy-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780081/linea/products/galaxy-bracelet-698f4561586a9a89ca4a46e5.jpg",
+    "cloudinaryPublicId": "linea/products/galaxy-bracelet-698f4561586a9a89ca4a46e5"
+  },
+  "lunar-bracelet-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\span-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780083/linea/products/lunar-bracelet-edition-698f4561586a9a89ca4a46e6.jpg",
+    "cloudinaryPublicId": "linea/products/lunar-bracelet-edition-698f4561586a9a89ca4a46e6"
+  },
+  "solar-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780085/linea/products/solar-bracelet-698f4561586a9a89ca4a46e7.jpg",
+    "cloudinaryPublicId": "linea/products/solar-bracelet-698f4561586a9a89ca4a46e7"
+  },
+  "astral-bracelet-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780088/linea/products/astral-bracelet-noir-698f4561586a9a89ca4a46e8.jpg",
+    "cloudinaryPublicId": "linea/products/astral-bracelet-noir-698f4561586a9a89ca4a46e8"
+  },
+  "cosmic-bracelet-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780090/linea/products/cosmic-bracelet-edition-698f4561586a9a89ca4a46e9.jpg",
+    "cloudinaryPublicId": "linea/products/cosmic-bracelet-edition-698f4561586a9a89ca4a46e9"
+  },
+  "celestial-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780093/linea/products/celestial-bracelet-698f4561586a9a89ca4a46ea.jpg",
+    "cloudinaryPublicId": "linea/products/celestial-bracelet-698f4561586a9a89ca4a46ea"
+  },
+  "ethereal-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\public\\arcus-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780095/linea/products/ethereal-bracelet-698f4561586a9a89ca4a46eb.jpg",
+    "cloudinaryPublicId": "linea/products/ethereal-bracelet-698f4561586a9a89ca4a46eb"
+  },
+  "arcus-bracelet-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780098/linea/products/arcus-bracelet-edition-698f4561586a9a89ca4a46ec.jpg",
+    "cloudinaryPublicId": "linea/products/arcus-bracelet-edition-698f4561586a9a89ca4a46ec"
+  },
+  "vesper-bracelet": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\link-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780100/linea/products/vesper-bracelet-698f4561586a9a89ca4a46ed.jpg",
+    "cloudinaryPublicId": "linea/products/vesper-bracelet-698f4561586a9a89ca4a46ed"
+  },
+  "nocturne-watche": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780103/linea/products/nocturne-watche-698f4561586a9a89ca4a46ee.jpg",
+    "cloudinaryPublicId": "linea/products/nocturne-watche-698f4561586a9a89ca4a46ee"
+  },
+  "solis-watche-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780105/linea/products/solis-watche-edition-698f4561586a9a89ca4a46ef.jpg",
+    "cloudinaryPublicId": "linea/products/solis-watche-edition-698f4561586a9a89ca4a46ef"
+  },
+  "drift-watche-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780108/linea/products/drift-watche-noir-698f4561586a9a89ca4a46f0.jpg",
+    "cloudinaryPublicId": "linea/products/drift-watche-noir-698f4561586a9a89ca4a46f0"
+  },
+  "helix-watche": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780110/linea/products/helix-watche-698f4561586a9a89ca4a46f1.jpg",
+    "cloudinaryPublicId": "linea/products/helix-watche-698f4561586a9a89ca4a46f1"
+  },
+  "pantheon-watche-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\founders.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780113/linea/products/pantheon-watche-edition-698f4561586a9a89ca4a46f2.jpg",
+    "cloudinaryPublicId": "linea/products/pantheon-watche-edition-698f4561586a9a89ca4a46f2"
+  },
+  "eclipse-watche": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780115/linea/products/eclipse-watche-698f4561586a9a89ca4a46f3.jpg",
+    "cloudinaryPublicId": "linea/products/eclipse-watche-698f4561586a9a89ca4a46f3"
+  },
+  "halo-watche-noir": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780118/linea/products/halo-watche-noir-698f4561586a9a89ca4a46f4.jpg",
+    "cloudinaryPublicId": "linea/products/halo-watche-noir-698f4561586a9a89ca4a46f4"
+  },
+  "oblique-watche-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780121/linea/products/oblique-watche-edition-698f4561586a9a89ca4a46f5.jpg",
+    "cloudinaryPublicId": "linea/products/oblique-watche-edition-698f4561586a9a89ca4a46f5"
+  },
+  "lintel-charm": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780124/linea/products/lintel-charm-698f4561586a9a89ca4a46f6.jpg",
+    "cloudinaryPublicId": "linea/products/lintel-charm-698f4561586a9a89ca4a46f6"
+  },
+  "shadowline-charm": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\link-bracelet.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780126/linea/products/shadowline-charm-698f4561586a9a89ca4a46f7.jpg",
+    "cloudinaryPublicId": "linea/products/shadowline-charm-698f4561586a9a89ca4a46f7"
+  },
+  "meridian-charm-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780128/linea/products/meridian-charm-edition-698f4561586a9a89ca4a46f8.jpg",
+    "cloudinaryPublicId": "linea/products/meridian-charm-edition-698f4561586a9a89ca4a46f8"
+  },
+  "vertex-charm": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780130/linea/products/vertex-charm-698f4561586a9a89ca4a46f9.jpg",
+    "cloudinaryPublicId": "linea/products/vertex-charm-698f4561586a9a89ca4a46f9"
+  },
+  "apex-charm": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\circular-collection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780133/linea/products/apex-charm-698f4561586a9a89ca4a46fa.jpg",
+    "cloudinaryPublicId": "linea/products/apex-charm-698f4561586a9a89ca4a46fa"
+  },
+  "zenith-charm-edition": {
+    "sourceUrl": "C:\\Users\\hp\\OneDrive\\Desktop\\LINEA\\frontend\\remix-of-linea-jewelry\\src\\assets\\hero-image.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dzz4u9nhx/image/upload/v1772780135/linea/products/zenith-charm-edition-698f4561586a9a89ca4a46fb.jpg",
+    "cloudinaryPublicId": "linea/products/zenith-charm-edition-698f4561586a9a89ca4a46fb"
+  },
+  "query:pantheon earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Pantheon Earring Edition Earrings product photography"
+  },
+  "query:eclipse earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Eclipse Earring Earrings product photography"
+  },
+  "query:halo earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Halo Earring Earrings product photography"
+  },
+  "query:oblique earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Oblique Earring Edition Earrings product photography"
+  },
+  "query:lintel earring noir earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lintel Earring Noir Earrings product photography"
+  },
+  "query:shadowline earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Shadowline Earring Earrings product photography"
+  },
+  "query:meridian earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Meridian Earring Edition Earrings product photography"
+  },
+  "query:vertex earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vertex Earring Earrings product photography"
+  },
+  "query:apex earring noir earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Apex Earring Noir Earrings product photography"
+  },
+  "query:zenith earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Zenith Earring Edition Earrings product photography"
+  },
+  "query:prism earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Prism Earring Earrings product photography"
+  },
+  "query:radiant earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Radiant Earring Earrings product photography"
+  },
+  "query:stellar earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Stellar Earring Edition Earrings product photography"
+  },
+  "query:cosmos earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmos Earring Earrings product photography"
+  },
+  "query:aurora earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Aurora Earring Earrings product photography"
+  },
+  "query:nebula earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nebula Earring Edition Earrings product photography"
+  },
+  "query:orbit earring noir earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Orbit Earring Noir Earrings product photography"
+  },
+  "query:galaxy earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Galaxy Earring Earrings product photography"
+  },
+  "query:lunar earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lunar Earring Edition Earrings product photography"
+  },
+  "query:solar earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solar Earring Earrings product photography"
+  },
+  "query:astral earring noir earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Astral Earring Noir Earrings product photography"
+  },
+  "query:cosmic earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmic Earring Edition Earrings product photography"
+  },
+  "query:celestial earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Celestial Earring Earrings product photography"
+  },
+  "query:ethereal earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Ethereal Earring Earrings product photography"
+  },
+  "query:arcus earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Arcus Earring Edition Earrings product photography"
+  },
+  "query:vesper earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vesper Earring Earrings product photography"
+  },
+  "query:nocturne earring earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nocturne Earring Earrings product photography"
+  },
+  "query:solis earring edition earrings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solis Earring Edition Earrings product photography"
+  },
+  "query:drift ring noir rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Drift Ring Noir Rings product photography"
+  },
+  "query:helix ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Helix Ring Rings product photography"
+  },
+  "query:pantheon ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Pantheon Ring Edition Rings product photography"
+  },
+  "query:eclipse ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Eclipse Ring Rings product photography"
+  },
+  "query:halo ring noir rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Halo Ring Noir Rings product photography"
+  },
+  "query:oblique ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Oblique Ring Edition Rings product photography"
+  },
+  "query:lintel ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lintel Ring Rings product photography"
+  },
+  "query:shadowline ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Shadowline Ring Rings product photography"
+  },
+  "query:meridian ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Meridian Ring Edition Rings product photography"
+  },
+  "query:vertex ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vertex Ring Rings product photography"
+  },
+  "query:apex ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Apex Ring Rings product photography"
+  },
+  "query:zenith ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Zenith Ring Edition Rings product photography"
+  },
+  "query:prism ring noir rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Prism Ring Noir Rings product photography"
+  },
+  "query:radiant ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Radiant Ring Rings product photography"
+  },
+  "query:stellar ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Stellar Ring Edition Rings product photography"
+  },
+  "query:cosmos ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmos Ring Rings product photography"
+  },
+  "query:aurora ring noir rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Aurora Ring Noir Rings product photography"
+  },
+  "query:nebula ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nebula Ring Edition Rings product photography"
+  },
+  "query:orbit ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Orbit Ring Rings product photography"
+  },
+  "query:galaxy ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Galaxy Ring Rings product photography"
+  },
+  "query:lunar ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lunar Ring Edition Rings product photography"
+  },
+  "query:solar ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solar Ring Rings product photography"
+  },
+  "query:astral ring rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Astral Ring Rings product photography"
+  },
+  "query:cosmic ring edition rings product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmic Ring Edition Rings product photography"
+  },
+  "query:celestial necklace noir necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Celestial Necklace Noir Necklaces product photography"
+  },
+  "query:ethereal necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Ethereal Necklace Necklaces product photography"
+  },
+  "query:arcus necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Arcus Necklace Edition Necklaces product photography"
+  },
+  "query:vesper necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vesper Necklace Necklaces product photography"
+  },
+  "query:nocturne necklace noir necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nocturne Necklace Noir Necklaces product photography"
+  },
+  "query:solis necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solis Necklace Edition Necklaces product photography"
+  },
+  "query:drift necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Drift Necklace Necklaces product photography"
+  },
+  "query:helix necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Helix Necklace Necklaces product photography"
+  },
+  "query:pantheon necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Pantheon Necklace Edition Necklaces product photography"
+  },
+  "query:eclipse necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Eclipse Necklace Necklaces product photography"
+  },
+  "query:halo necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Halo Necklace Necklaces product photography"
+  },
+  "query:oblique necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Oblique Necklace Edition Necklaces product photography"
+  },
+  "query:lintel necklace noir necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lintel Necklace Noir Necklaces product photography"
+  },
+  "query:shadowline necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Shadowline Necklace Necklaces product photography"
+  },
+  "query:meridian necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Meridian Necklace Edition Necklaces product photography"
+  },
+  "query:vertex necklace necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vertex Necklace Necklaces product photography"
+  },
+  "query:apex necklace noir necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Apex Necklace Noir Necklaces product photography"
+  },
+  "query:zenith necklace edition necklaces product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Zenith Necklace Edition Necklaces product photography"
+  },
+  "query:prism bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Prism Bracelet Bracelets product photography"
+  },
+  "query:radiant bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Radiant Bracelet Bracelets product photography"
+  },
+  "query:stellar bracelet edition bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Stellar Bracelet Edition Bracelets product photography"
+  },
+  "query:cosmos bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmos Bracelet Bracelets product photography"
+  },
+  "query:aurora bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Aurora Bracelet Bracelets product photography"
+  },
+  "query:nebula bracelet edition bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nebula Bracelet Edition Bracelets product photography"
+  },
+  "query:orbit bracelet noir bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Orbit Bracelet Noir Bracelets product photography"
+  },
+  "query:galaxy bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Galaxy Bracelet Bracelets product photography"
+  },
+  "query:lunar bracelet edition bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lunar Bracelet Edition Bracelets product photography"
+  },
+  "query:solar bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solar Bracelet Bracelets product photography"
+  },
+  "query:astral bracelet noir bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Astral Bracelet Noir Bracelets product photography"
+  },
+  "query:cosmic bracelet edition bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Cosmic Bracelet Edition Bracelets product photography"
+  },
+  "query:celestial bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Celestial Bracelet Bracelets product photography"
+  },
+  "query:ethereal bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Ethereal Bracelet Bracelets product photography"
+  },
+  "query:arcus bracelet edition bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Arcus Bracelet Edition Bracelets product photography"
+  },
+  "query:vesper bracelet bracelets product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vesper Bracelet Bracelets product photography"
+  },
+  "query:nocturne watche watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Nocturne Watche Watches product photography"
+  },
+  "query:solis watche edition watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Solis Watche Edition Watches product photography"
+  },
+  "query:drift watche noir watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Drift Watche Noir Watches product photography"
+  },
+  "query:helix watche watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Helix Watche Watches product photography"
+  },
+  "query:pantheon watche edition watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Pantheon Watche Edition Watches product photography"
+  },
+  "query:eclipse watche watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Eclipse Watche Watches product photography"
+  },
+  "query:halo watche noir watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Halo Watche Noir Watches product photography"
+  },
+  "query:oblique watche edition watches product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Oblique Watche Edition Watches product photography"
+  },
+  "query:lintel charm charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Lintel Charm Charms product photography"
+  },
+  "query:shadowline charm charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Shadowline Charm Charms product photography"
+  },
+  "query:meridian charm edition charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Meridian Charm Edition Charms product photography"
+  },
+  "query:vertex charm charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Vertex Charm Charms product photography"
+  },
+  "query:apex charm charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Apex Charm Charms product photography"
+  },
+  "query:zenith charm edition charms product photography": {
+    "sourceUrl": "https://loremflickr.com/cache/resized/defaultImage.small_1280_1280_nofilter.jpg",
+    "query": "Zenith Charm Edition Charms product photography"
+  }
+}

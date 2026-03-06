@@ -19,6 +19,7 @@ export async function fetchProducts(params: {
   newArrivals?: number;
   minPrice?: number;
   maxPrice?: number;
+  materials?: string[];
 }) {
   const search = new URLSearchParams();
   if (params.page) search.set('page', String(params.page));
@@ -28,6 +29,9 @@ export async function fetchProducts(params: {
   if (params.newArrivals) search.set('newArrivals', String(params.newArrivals));
   if (params.minPrice !== undefined) search.set('minPrice', String(params.minPrice));
   if (params.maxPrice !== undefined) search.set('maxPrice', String(params.maxPrice));
+  if (params.materials && params.materials.length > 0) {
+    search.set('materials', params.materials.join(','));
+  }
 
   const query = search.toString();
   return request<{ items: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number } }>(

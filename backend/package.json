@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "images:sync": "node scripts/syncProductImagesToCloudinary.js"
   },
   "keywords": [],
   "author": "",

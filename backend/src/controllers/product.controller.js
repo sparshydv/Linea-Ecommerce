@@ -3,8 +3,8 @@ const { HTTP_STATUS } = require('../constants/httpStatus');
 
 const listProducts = async (req, res, next) => {
   try {
-    const { page, limit, category, minPrice, maxPrice, newArrivals, sort } = req.query;
-    const result = await getProducts({ page, limit, category, minPrice, maxPrice, newArrivals, sort });
+    const { page, limit, category, minPrice, maxPrice, newArrivals, sort, materials } = req.query;
+    const result = await getProducts({ page, limit, category, minPrice, maxPrice, newArrivals, sort, materials });
     res.status(HTTP_STATUS.OK).json({ success: true, data: result });
   } catch (err) {
     next(err);
@@ -28,8 +28,8 @@ const getProduct = async (req, res, next) => {
 
 const searchProductsHandler = async (req, res, next) => {
   try {
-    const { q, category, minPrice, maxPrice, newArrivals, page, limit, sort } = req.query;
-    const result = await searchProducts({ q, category, minPrice, maxPrice, newArrivals, page, limit, sort });
+    const { q, category, minPrice, maxPrice, newArrivals, page, limit, sort, materials } = req.query;
+    const result = await searchProducts({ q, category, minPrice, maxPrice, newArrivals, page, limit, sort, materials });
     res.status(HTTP_STATUS.OK).json({ success: true, data: result });
   } catch (err) {
     next(err);

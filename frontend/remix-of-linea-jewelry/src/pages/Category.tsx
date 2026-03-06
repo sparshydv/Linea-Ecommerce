@@ -45,28 +45,30 @@ const Category = () => {
 
   // Convert price ranges to min/max values
   const getPriceRange = () => {
-    let minPrice = undefined;
-    let maxPrice = undefined;
-
-    if (selectedFilters.priceRanges.length > 0) {
-      const priceRanges = selectedFilters.priceRanges;
-      
-      if (priceRanges.includes("Under €1,000")) {
-        minPrice = 0;
-      }
-      if (priceRanges.includes("€1,000 - €2,000")) {
-        minPrice = Math.min(minPrice ?? 1000, 1000);
-        maxPrice = Math.max(maxPrice ?? 2000, 2000);
-      }
-      if (priceRanges.includes("€2,000 - €3,000")) {
-        minPrice = Math.min(minPrice ?? 2000, 2000);
-        maxPrice = Math.max(maxPrice ?? 3000, 3000);
-      }
-      if (priceRanges.includes("Over €3,000")) {
-        minPrice = Math.min(minPrice ?? 3000, 3000);
-        maxPrice = undefined; // No max for "Over €3,000"
-      }
+    if (selectedFilters.priceRanges.length === 0) {
+      return { minPrice: undefined, maxPrice: undefined };
     }
+
+    const rangeConfig: Record<string, { min: number; max?: number }> = {
+      "Under ₹1,000": { min: 0, max: 1000 },
+      "₹1,000 - ₹2,000": { min: 1000, max: 2000 },
+      "₹2,000 - ₹3,000": { min: 2000, max: 3000 },
+      "Over ₹3,000": { min: 3000 },
+    };
+
+    const selectedRanges = selectedFilters.priceRanges
+      .map((label) => rangeConfig[label])
+      .filter(Boolean);
+
+    if (selectedRanges.length === 0) {
+      return { minPrice: undefined, maxPrice: undefined };
+    }
+
+    const minPrice = Math.min(...selectedRanges.map((range) => range.min));
+    const hasOpenEndedRange = selectedRanges.some((range) => range.max === undefined);
+    const maxPrice = hasOpenEndedRange
+      ? undefined
+      : Math.max(...selectedRanges.map((range) => range.max as number));
 
     return { minPrice, maxPrice };
   };
@@ -80,8 +82,8 @@ const Category = () => {
         setError(null);
 
         const { minPrice, maxPrice } = getPriceRange();
-        const categoryFilter = selectedFilters.categories.length > 0 
-          ? selectedFilters.categories[0] 
+        const categoryFilter = selectedFilters.categories.length > 0
+          ? selectedFilters.categories.join(',')
           : apiCategory;
 
         const result = await fetchProducts({
@@ -92,6 +94,7 @@ const Category = () => {
           sort: sortBy,
           minPrice,
           maxPrice,
+          materials: selectedFilters.materials,
         });
 
         if (!isMounted) return;
